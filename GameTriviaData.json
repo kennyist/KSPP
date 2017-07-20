@@ -1,0 +1,148 @@
+{
+  "questions": [
+    {
+      "text": "The beaver is the national emblem of which country?",
+      "correct" : 3,
+      "answers": [
+        {
+          "text" : "Russia"
+        },
+        {
+          "text" : "Italy"
+        },
+        {
+          "text" : "Turkey"
+        },
+        {
+          "text" : "Canada"
+        } 
+      ]
+    },
+    {
+      "text": "Name the largest freshwater lake in the world?",
+      "correct" : 1,
+      "answers": [
+        {
+          "text" : "Caspian Sea"
+        },
+        {
+          "text" : "Lake Superior"
+        },
+        {
+          "text" : "Victoria"
+        },
+        {
+          "text" : "Great Bear Lake"
+        } 
+      ]
+    },
+    {
+      "text": "Where would you find the Sea of Tranquility?",
+      "correct" : 0,
+      "answers": [
+        {
+          "text" : "The Moon"
+        },
+        {
+          "text" : "China"
+        },
+        {
+          "text" : "Australia"
+        },
+        {
+          "text" : "Alaska"
+        } 
+      ]
+    },
+    {
+      "text": "What is the world's biggest island?",
+      "correct" : 3,
+      "answers": [
+        {
+          "text" : "Japan"
+        },
+        {
+          "text" : "Iceland"
+        },
+        {
+          "text" : "Australia"
+        },
+        {
+          "text" : "Greenland"
+        } 
+      ]
+    },
+    {
+      "text": "What colour is Absynth?",
+      "correct" : 2,
+      "answers": [
+        {
+          "text" : "Red"
+        },
+        {
+          "text" : "Blue"
+        },
+        {
+          "text" : "Green"
+        },
+        {
+          "text" : "Cyan"
+        } 
+      ]
+    },
+    {
+      "text": "What flavour is Cointreau?",
+      "correct" : 0,
+      "answers": [
+        {
+          "text" : "Orange"
+        },
+        {
+          "text" : "Banana"
+        },
+        {
+          "text" : "Purple"
+        },
+        {
+          "text" : "Kiwi"
+        } 
+      ]
+    },
+    {
+      "text": "Which country is Prague in?",
+      "correct" : 3,
+      "answers": [
+        {
+          "text" : "Ukrain"
+        },
+        {
+          "text" : "Turkey"
+        },
+        {
+          "text" : "Russia"
+        },
+        {
+          "text" : "Czech Republic"
+        } 
+      ]
+    },
+    {
+      "text": "In which European city can you find the home of Anne Frank?",
+      "correct" : 1,
+      "answers": [
+        {
+          "text" : "Riga"
+        },
+        {
+          "text" : "Amsterdam"
+        },
+        {
+          "text" : "Zurich"
+        },
+        {
+          "text" : "Rotterdam"
+        } 
+      ]
+    }
+  ]
+}

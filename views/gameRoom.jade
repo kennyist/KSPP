@@ -1,0 +1,42 @@
+block content
+
+	h1.center Room code #{code}
+	
+	- if(host){
+	h3#selectedGame.center Selected game: #{game}
+	div.pure-g
+		div.pure-u1.pure-u-md-1-2.fixWidth
+			p Select game
+			ul#gameChoice
+				li(value='0') 
+					div 
+						p Trivia
+						img(src='')
+				li(value='1') 
+					div 
+						p Drawing
+						img(src='')
+						
+		div.pure-u1.pure-u-md-1-2.fixWidth 
+			p#lobby-player-count.text-right players: #{players.length}/8
+			ul#lobby-players
+				- for (var i=0; i < players.length; i++) {
+				li
+					p.lobby-players-name #{players[i].name} -
+					p.lobby-players-score #{players[i].score} Win(s)
+				- }
+	
+	div
+		button.button-success.pure-button.fullWidth#ready All players ready
+		button.button-error.pure-button.fullWidth.hide#cancle Cancle Countdown
+		
+	- } else {
+	h3#selectedGame.center Next game is Trivia!
+	ul#lobby-players
+			- for (var i=0; i < players.length; i++) {
+			li
+				p.lobby-players-name #{players[i].name} -
+				p.lobby-players-score #{players[i].score} Wins
+			- }
+	
+	- }

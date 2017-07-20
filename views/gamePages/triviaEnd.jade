@@ -1,0 +1,15 @@
+- if(host){
+table.pure-table.fullWidth
+	thead
+		tr
+			td Player
+			td Score
+	tbody
+		- for(var i = 0; i < players.length; i++){
+		tr
+			td #{players[i].name}
+			td #{players[i].gameScore}
+		- }
+- } else {
+h1 Game ended, waiting for lobby
+- }

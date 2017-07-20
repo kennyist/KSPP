@@ -1,0 +1,12 @@
+- if(host){
+h3 You have all been asked to draw something on your devices
+- } else {
+
+h3.center Draw a #{word}
+
+canvas(width="400px", height="400px")#drawCanvas
+script $("#drawCanvas").sketch();
+
+button.pure-button.button-success.fullWidth#sendPicture Send
+
+- }

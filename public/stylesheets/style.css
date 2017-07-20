@@ -1,0 +1,203 @@
+html{
+	overflow-x: hidden;
+}
+
+body {
+	position: relative;
+	color: #777;
+	line-height: 1.6;
+}
+
+#drawCanvas{
+	margin: auto;
+	border: solid black 2px;
+}
+
+.fixWidth{
+	width: 50%;
+	letter-spacing: normal;
+}
+
+/* Trivia */
+
+.trivia-score-box {
+	display: inline-block;
+	width: 25%;
+	border-radius: 5px;
+}
+
+.correct {
+	border: 1px solid green;
+    box-shadow: 1px 1px 5px 0px rgba(0, 255, 0, 1);
+}
+
+.wrong {
+	border: 1px solid red;
+}
+
+/**/
+
+#content {
+	max-width: 800px;
+	width: auto;
+	margin: auto;
+	padding-top: 70px;
+}
+
+.fullWidth {
+	width: 100%;
+}
+
+.hide {
+	display: none;
+}
+
+.button-success {
+	background: rgb(28, 184, 65); /* this is a green */
+	color: white;
+}
+
+.button-error {
+	background: rgb(202, 60, 60); /* this is a maroon */
+	color: white;
+}
+
+.button-secondary {
+	background: rgb(66, 184, 221); /* this is a light blue */
+	color: white;
+}
+
+h1, h2, h3, h4, h5, h6, label {
+	color: #34495e;
+}
+
+.pure-form label {
+	margin: 1em 0 0;
+	font-weight: bold;
+	font-size: 100%;
+}
+
+/* Lobby */
+
+#lobby-players {
+	list-style: none;
+	text-align: right;
+}
+
+#lobby-players li {
+	list-style: none;
+	margin-bottom: 5px;
+}
+
+.text-right {
+	text-align: right;
+}
+
+#lobby-players li .lobby-players-name {
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 13px;
+	padding: 0;
+	margin: 0;
+}
+
+#lobby-players li .lobby-players-score {
+	font-size: 15px;
+	padding: 0;
+	margin: 0;
+}
+
+/*
+ * -- MENU STYLES --
+ * I want to customize how my .pure-menu looks at the top of the page
+ */
+
+.home-menu {
+	padding: 0.5em;
+	text-align: center;
+	box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
+	background: #2d3e50;
+}
+.pure-menu.pure-menu-fixed {
+	/* Fixed menus normally have a border at the bottom. */
+	border-bottom: none;
+	/* I need a higher z-index here because of the scroll-over effect. */
+	z-index: 4;
+}
+
+.home-menu .pure-menu-heading {
+	color: white;
+	font-weight: 400;
+	font-size: 120%;
+}
+
+.home-menu .pure-menu-selected a {
+	color: white;
+}
+
+.home-menu a {
+	color: #6FBEF3;
+}
+.home-menu li a:hover, .home-menu li a:focus {
+	background: none;
+	border: none;
+	color: #AECFE5;
+}
+
+#joinCreate {
+	margin: auto;
+	width: 800px;
+}
+
+#countdown-bar-bg {
+	background: black;
+	width: 100%;
+	height: 25px;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: 997;
+}
+
+#countdown-bar {
+	background: cyan;
+	width: 50%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	z-index: 998;
+}
+
+#countdown-bar-bg p {
+	text-align: center;
+	color: white;
+	font-size: 15px;
+	font-weight: bold;
+	line-height: 0px;
+	z-index: 1000;
+	position: relative;
+}
+
+a {
+	color: #00B7FF;
+}
+
+li.answer {
+	list-style: none;
+	margin-bottom: 5px;
+}
+
+li.answer button {
+	color: white;
+}
+
+.center {
+	text-align: center;
+}
+
+#gameChoice li{
+	text-decoration: underline;
+	font-weight: 600;
+}
+

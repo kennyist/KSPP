@@ -1,0 +1,18 @@
+- if(host){
+# Waiting for everyone to answer
+- } else {
+
+- if(owner){
+
+h1.center You drew this! wait for everyone else
+
+- } else {
+
+ul#drawAnswer
+	- for(var i = 0; i < data.length; i++) {
+	li
+		button(val="#{i}").pure-button #{data[i].word.answer}
+	- }
+
+-}
+-}

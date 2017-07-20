@@ -1,0 +1,23 @@
+- if(host){
+
+h4.center Correct answer was:
+h3.center #{data.answers[data.correct].text}
+
+- for (var i = 0; i < players.length; i++){
+- if(data.correct == players[i].answer){
+div.trivia-score-box.correct
+	h3.center #{players[i].name}
+	p.center +#{players[i].scoreTA}!
+	p.center Current score: #{players[i].gameScore}
+-} else {
+div.trivia-score-box.wrong
+	h3.center #{players[i].name}
+	p.center Current score: #{players[i].gameScore}
+- }
+- }
+
+- } else {
+
+h2.center Waiting for next question
+
+- }

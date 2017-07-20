@@ -1,0 +1,23 @@
+extends layout
+
+block content
+	div#joinCreate
+		h1= title
+		
+		form(name="joinCreate", method="post").pure-form.pure-form-stacked
+			fieldset
+				div.input 
+					label(for="name") Player Name
+					p.control
+						input(type="text", name="name", required="required", placeholder="Username").input
+						
+				div.input
+					label(for="code")  Room Code
+					p.control
+						input(type="text", name="code", required="required", placeholder="Room Code").input
+						
+				div.input
+					input(type="submit", value="Join", onclick="joinRoom();return false;").pure-button.pure-button-primary
+					input(type="button", value="Create Room", onclick="createRoom();return false;").pure-button.button-secondary
+					
+				p#loginError.hide
