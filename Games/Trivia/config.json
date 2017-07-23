@@ -1,0 +1,11 @@
+{
+  "details": {
+    "author": "Tristan 'Kennyist' Cunningham",
+    "name": "Trivia",
+    "version": 0.1,
+    "headerimg": "./",
+    "summary": "Quick pub trivia game!",
+    "minPlayers": 2,
+    "maxPlayers": 16
+  }
+}

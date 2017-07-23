@@ -11,13 +11,14 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var config = new require('./config.js'); 				// Import config file
+var GameLoader = new require('./GameLoader.js');		// Import Game Loading class
 var GameRoom = new require('./GameRoom.js');			// Import game room class
 var RoomManager = new require('./RoomManager.js');		// Import room manager class
 var PlayerManager = new require('./PlayerManager.js');	// Import player manager class
 var GamePlayer = new require('./GamePlayer.js');		// Import Game player class
 
 // Game Code
-
+var gl = new GameLoader(config); gl.LoadGames();
 var rm = new RoomManager(); 
 var pm = new PlayerManager();
 
@@ -138,6 +139,7 @@ function createRoom(player, socket, name){
 	player.room = room.code;
 	player.joinRoom(room.code);												// set player socket room code to game room code
 	room.addHost(player.classless());										// set player as host
+	room.loadGames();
 	
 	rm.activeRooms.push(room);												// push room to active rooms
 	
@@ -196,7 +198,7 @@ function randomString(length) {
 // -
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', [path.join(__dirname, 'views'), path.join(__dirname, 'Games/Trivia/views')]);
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public

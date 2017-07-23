@@ -21,8 +21,51 @@ module.exports = class GameRoom{
 		this.timerM = 10000;		// Timer start time
 		this.selectedGame = 0;
 		this.gamePackage = null;
+		this.packages = [];
 		this.inGame = false;
 		this.host = {};				// host player data
+	}
+	
+	loadGames(){
+		var fs = require('fs');
+		var directory = "./Games";
+		var filenames = fs.readdirSync(directory);
+		var count = 0;
+		var array = [];
+		
+		filenames.forEach(function (name) {
+			var insert = {};
+			
+		    if (name === "." || name === "..") {
+		        return;
+		    }
+		    
+		    if (fs.lstatSync(directory + "/" + name).isDirectory()) {
+		        console.log(directory + "/" + name);
+		        
+		        if (fs.existsSync(directory + "/" + name + "/game.js")) {
+				    console.log('Game exists');
+				    insert.game = directory + "/" + name + "/game.js";
+				    insert.dir = "";//directory + "/" + name;
+				}
+				
+				if (fs.existsSync(directory + "/" + name + "/config.json")) {
+				    console.log('Config exists');
+				    var temp = require(directory + "/" + name + "/config.json");
+				    insert.details = temp.details;
+				}
+				
+				if(insert.game != null){
+			    	array.push(insert);
+			    	console.log(insert);
+			    }
+		    }
+		
+		});
+		
+		this.packages = array;
+		
+		console.log(this.packages);
 	}
 	
 	/**
@@ -73,7 +116,7 @@ module.exports = class GameRoom{
 		
 		switch(this.selectedGame){
 			case 0:
-				game = require('./GameTrivia.js'); 
+				game = require(this.packages[0].game); 
 				console.log("loading trivia");
 			break;
 			
@@ -83,7 +126,7 @@ module.exports = class GameRoom{
 			break;
 		}
 		
-		this.gamePackage = new game(this, this.players);
+		this.gamePackage = new game(this, this.players, this.packages[0].dir);
 		this.inGame = true;
 		this.gamePackage.start();
 	}
@@ -186,10 +229,13 @@ module.exports = class GameRoom{
 	replacePage(page, data, socket){
 		if(!data) data = {};
 		
+		console.log(page);
+		
 		var temp, host;
 		
 		this.app.render(page, data, function(err, html){
 			temp = html;
+			console.log(err);
 		});
 		
 		
@@ -197,6 +243,8 @@ module.exports = class GameRoom{
 		this.app.render(page, data, function(err, html){
 			host = html;
 		});
+		
+		console.log(temp);
 		
 		if(socket){
 			socket.emit("ReplacePage" , temp);

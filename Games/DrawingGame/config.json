@@ -1,0 +1,11 @@
+{
+  "details": {
+    "author": "Tristan 'Kennyist' Cunningham",
+    "name": "Drawing game",
+    "version": 0.1,
+    "headerimg": "./",
+    "summary": "Quick drawing based game",
+    "minPlayers": 2,
+    "maxPlayers": 8
+  }
+}
