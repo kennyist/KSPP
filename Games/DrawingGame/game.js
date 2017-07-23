@@ -4,7 +4,7 @@
 module.exports = class GamePaint {
 
 	constructor(parent, players) {
-		this.config = new require('./config.js');
+		this.config = {tickRate: 33.33};
 		this.parent = parent;
 		this.players = players;
 		this.data = require('./GamePaintData.json');
@@ -18,7 +18,7 @@ module.exports = class GamePaint {
 	}
 
 	start() {
-		this.parent.replacePage("gamePages/paintStart");
+		this.parent.replacePage("paintStart");
 		this.timerM = 5000;
 		this.roundStage++;
 	}
@@ -93,12 +93,12 @@ module.exports = class GamePaint {
 			for (var i = 0; i < this.players.length; i++) {
 				this.players[i].word = this.getWord();
 
-				this.parent.replacePage("gamePages/paintDraw", {
+				this.parent.replacePage("paintDraw", {
 					word : this.players[i].word
 				}, this.players[i].socket);
 			}
 
-			this.parent.replacePage("gamePages/paintDraw", {
+			this.parent.replacePage("paintDraw", {
 				host : true
 			}, this.parent.host.socket);
 
@@ -160,7 +160,7 @@ module.exports = class GamePaint {
 		
 		this.pictures[0].answers.push({answer: answer, uid: uid});
 		
-		this.parent.replacePage("gamePages/paintWait", null, player.socket);
+		this.parent.replacePage("paintWait", null, player.socket);
 		
 		this.checkSuggestAnswered();
 	}
@@ -192,7 +192,7 @@ module.exports = class GamePaint {
 			answers: []
 		});
 
-		this.parent.replacePage("gamePages/paintWait", null, player.socket);
+		this.parent.replacePage("paintWait", null, player.socket);
 
 		this.checkDrawAnswered();
 	}
@@ -233,7 +233,7 @@ module.exports = class GamePaint {
 	
 	
 	scores(){
-		this.parent.replacePage("gamePages/paintScores", {
+		this.parent.replacePage("paintScores", {
 		});
 		
 		this.timerM = 15000;
@@ -260,18 +260,18 @@ module.exports = class GamePaint {
 		
 		for (var i = 0; i < this.players.length; i++) {
 			if(this.players[i].id == this.pictures[0].pid){
-				this.parent.replacePage("gamePages/paintSuggest", {
+				this.parent.replacePage("paintSuggest", {
 					owner: true
 				}, this.players[i].socket);
 			} else {
-				this.parent.replacePage("gamePages/paintSuggest", {
+				this.parent.replacePage("paintSuggest", {
 					data : data,
 					owner: false
 				}, this.players[i].socket);
 			}
 		}
 		
-		this.parent.replacePage("gamePages/paintSuggest", {
+		this.parent.replacePage("paintSuggest", {
 			host : true
 		}, this.parent.host.socket);
 		
@@ -284,18 +284,18 @@ module.exports = class GamePaint {
 
 		for (var i = 0; i < this.players.length; i++) {
 			if(this.players[i].id == this.pictures[0].pid){
-				this.parent.replacePage("gamePages/paintShow", {
+				this.parent.replacePage("paintShow", {
 					owner: true
 				}, this.players[i].socket);
 			} else {
-				this.parent.replacePage("gamePages/paintShow", {
+				this.parent.replacePage("paintShow", {
 					src : this.pictures[0].img,
 					owner: false
 				}, this.players[i].socket);
 			}
 		}
 		
-		this.parent.replacePage("gamePages/paintDraw", {
+		this.parent.replacePage("paintDraw", {
 			host : true
 		}, this.parent.host.socket);
 		

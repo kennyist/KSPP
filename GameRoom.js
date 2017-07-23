@@ -116,7 +116,7 @@ module.exports = class GameRoom{
 		
 		switch(this.selectedGame){
 			case 0:
-				game = require(this.packages[0].game); 
+				game = require(this.packages[1].game); 
 				console.log("loading trivia");
 			break;
 			

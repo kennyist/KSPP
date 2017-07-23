@@ -8,7 +8,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 
 var config = new require('./config.js'); 				// Import config file
 var GameLoader = new require('./GameLoader.js');		// Import Game Loading class
@@ -18,7 +17,7 @@ var PlayerManager = new require('./PlayerManager.js');	// Import player manager 
 var GamePlayer = new require('./GamePlayer.js');		// Import Game player class
 
 // Game Code
-var gl = new GameLoader(config); gl.LoadGames();
+var gl = new GameLoader(config);
 var rm = new RoomManager(); 
 var pm = new PlayerManager();
 
@@ -198,7 +197,9 @@ function randomString(length) {
 // -
 
 // view engine setup
-app.set('views', [path.join(__dirname, 'views'), path.join(__dirname, 'Games/Trivia/views')]);
+paths = [path.join(__dirname, 'views')];
+paths.push.apply(paths, gl.GetViewLocationArray(__dirname));
+app.set('views', paths);
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
@@ -209,10 +210,17 @@ app.use(bodyParser.urlencoded({
 	extended : false
 }));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
+gl.packages.forEach(function(data){
+	if(data.hasPublic){
+		//console.log(path.join(__dirname, config.games.directory + '/' + data.folderName + '/public'));
+		app.use(express.static(path.join(__dirname, config.games.directory + '/' + data.folderName + '/public')));
+	}
+});
+
 app.use('/', index);
-app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
