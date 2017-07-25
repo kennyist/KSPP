@@ -9,7 +9,7 @@ config.tickRate = 33.33;	// Game refresh rate
 
 config.games = {}; 
 config.games.directory = "./Games"; // Local Games Directory;
-config.games.filter = []; 			// Names (Directory Name) of games to filter out
+config.games.filter = ["DrawingGame"]; 			// Names (Directory Name) of games to filter out
 
 
 module.exports = config;

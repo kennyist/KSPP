@@ -1,5 +1,5 @@
 
-
+// Importing
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,8 +7,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Routes
 var index = require('./routes/index');
 
+// Game importing
 var config = new require('./config.js'); 				// Import config file
 var GameLoader = new require('./GameLoader.js');		// Import Game Loading class
 var GameRoom = new require('./GameRoom.js');			// Import game room class
@@ -18,11 +20,16 @@ var GamePlayer = new require('./GamePlayer.js');		// Import Game player class
 
 // Game Code
 var gl = new GameLoader(config);
-var rm = new RoomManager(); 
+var rm = new RoomManager();
 var pm = new PlayerManager();
 
-//
-var app = require('express')();							//  Import express
+
+setInterval(function () {								// Start the tick rate for games
+	rm.tick();
+}, config.tickRate);
+
+// Initialise server
+var app = require('express')();							// Import express
 var http = require('http').Server(app);					// attach to http server
 var io = require('socket.io')(http);					// Import socket IO
 
@@ -31,12 +38,6 @@ http.listen(config.port, function() {
 	console.log('listening on localhost:' + config.port);
 }); 		
 
-/**
- * Start game tick rate
- */
-setInterval(function () {
-	rm.tick();
-}, config.tickRate);
 
 /**
  * On socket IO connect

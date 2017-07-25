@@ -6,6 +6,7 @@ module.exports = class GameLoader {
 	
 	constructor(config){
 		this.directory = config.games.directory;
+		this.filter = config.games.filter;
 		this.packages = [];
 		this.LoadGames();
 	}
@@ -27,12 +28,13 @@ module.exports = class GameLoader {
 		var count = Object.keys(filenames).length;
 		var i = 1;
 		var dir = this.directory;
+		var filter = this.filter;
 		
 		filenames.forEach(function (name) {
 			console.log("\nloading game "+i+"/"+ count);
 			var insert = {};
 			
-		    if (name === "." || name === "..") {
+		    if (name === "." || name === ".." || filter.includes(name)) {
 		        return;
 		    }
 		    
