@@ -17,6 +17,7 @@ var GameRoom = new require('./GameRoom.js');			// Import game room class
 var RoomManager = new require('./RoomManager.js');		// Import room manager class
 var PlayerManager = new require('./PlayerManager.js');	// Import player manager class
 var GamePlayer = new require('./GamePlayer.js');		// Import Game player class
+var api = new require('./gameAPI');
 
 // Game Code
 var gl = new GameLoader(config);
@@ -134,16 +135,15 @@ io.on('connection', function(socket) {
  * @param {string} name
  */
 function createRoom(player, socket, name){									
-	var room = new GameRoom(randomString(config.roomCodeLength), io, app);
+	var room = new GameRoom(randomString(config.roomCodeLength), io, app, gl, api);
 	player.name = name;
 	player.room = room.code;
 	player.joinRoom(room.code);												// set player socket room code to game room code
 	room.addHost(player.classless());										// set player as host
-	room.loadGames();
 	
 	rm.activeRooms.push(room);												// push room to active rooms
 	
-	app.render('gameRoom', { code: room.code, players: room.players, host: true, game: "Trivia" }, function(err, html){
+	app.render('gameRoom', { code: room.code, players: room.players, host: true, games: gl.packages }, function(err, html){
 		socket.emit("ReplacePage" , html);
 	});																		// render room to host
 }

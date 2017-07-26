@@ -100,7 +100,7 @@ module.exports = class GamePaint {
 
 			this.parent.replacePage("paintDraw", {
 				host : true
-			}, this.parent.host.socket);
+			}, this.parent.getSocket());
 
 			this.timerM = 90000;
 			break;

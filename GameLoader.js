@@ -35,6 +35,8 @@ module.exports = class GameLoader {
 			var insert = {};
 			
 		    if (name === "." || name === ".." || filter.includes(name)) {
+		    	console.log("\nGame '"+name+"' Not loaded: In filter list");
+		    	i++;
 		        return;
 		    }
 		    

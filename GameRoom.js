@@ -11,7 +11,7 @@ module.exports = class GameRoom{
 	 * @param {io} socket Io
 	 * @param {app} App data
 	 */
-	constructor(code, io, app){
+	constructor(code, io, app, gameLoader, api){
 		this.code = code;
 		this.players = [];
 		this.io = io;
@@ -21,51 +21,10 @@ module.exports = class GameRoom{
 		this.timerM = 10000;		// Timer start time
 		this.selectedGame = 0;
 		this.gamePackage = null;
-		this.packages = [];
+		this.packages = gameLoader.packages;
 		this.inGame = false;
 		this.host = {};				// host player data
-	}
-	
-	loadGames(){
-		var fs = require('fs');
-		var directory = "./Games";
-		var filenames = fs.readdirSync(directory);
-		var count = 0;
-		var array = [];
-		
-		filenames.forEach(function (name) {
-			var insert = {};
-			
-		    if (name === "." || name === "..") {
-		        return;
-		    }
-		    
-		    if (fs.lstatSync(directory + "/" + name).isDirectory()) {
-		        console.log(directory + "/" + name);
-		        
-		        if (fs.existsSync(directory + "/" + name + "/game.js")) {
-				    console.log('Game exists');
-				    insert.game = directory + "/" + name + "/game.js";
-				    insert.dir = "";//directory + "/" + name;
-				}
-				
-				if (fs.existsSync(directory + "/" + name + "/config.json")) {
-				    console.log('Config exists');
-				    var temp = require(directory + "/" + name + "/config.json");
-				    insert.details = temp.details;
-				}
-				
-				if(insert.game != null){
-			    	array.push(insert);
-			    	console.log(insert);
-			    }
-		    }
-		
-		});
-		
-		this.packages = array;
-		
-		console.log(this.packages);
+		this.api = new api(this);
 	}
 	
 	/**
@@ -112,39 +71,15 @@ module.exports = class GameRoom{
 	 * Start game - Loads game package and starts game
 	 */
 	startGame(){		
-		var game = null;
+		var game = require(this.packages[this.selectedGame].game);
 		
-		switch(this.selectedGame){
-			case 0:
-				game = require(this.packages[1].game); 
-				console.log("loading trivia");
-			break;
-			
-			case 1:
-				game = require('./GamePaint.js');
-				console.log("loading paint");
-			break;
-		}
-		
-		this.gamePackage = new game(this, this.players, this.packages[0].dir);
+		this.gamePackage = new game(this.api, this.players, this.packages[0].dir);
 		this.inGame = true;
 		this.gamePackage.start();
 	}
 	
-	getGameName(index){
-		var game = null;
-		
-		switch(this.selectedGame){
-			case 0:
-				game = "Trivia"; 
-			break;
-			
-			case 1:
-				game = "Drawing Game";
-			break;
-		}
-		
-		return game;
+	getGameName(index){		
+		return this.packages[index].details.name;
 	}
 	
 	/**
@@ -165,8 +100,8 @@ module.exports = class GameRoom{
 			}
 		}
 		
-		this.replacePage('gameRoom', { code: this.code, players: this.players });
-		this.replacePage('gameRoom', { code: this.code, players: this.players, host: true }, this.host.socket);
+		this.replacePage('gameRoom', { code: this.code, players: this.players, games: this.packages });
+		this.replacePage('gameRoom', { code: this.code, players: this.players, host: true, games: this.packages }, this.host.socket);
 	}
 	
 	/**

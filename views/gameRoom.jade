@@ -3,19 +3,17 @@ block content
 	h1.center Room code #{code}
 	
 	- if(host){
-	h3#selectedGame.center Selected game: #{game}
+	h3#selectedGame.center Selected game: #{games[0].details.name}
 	div.pure-g
 		div.pure-u1.pure-u-md-1-2.fixWidth
 			p Select game
 			ul#gameChoice
-				li(value='0') 
-					div 
-						p Trivia
-						img(src='')
-				li(value='1') 
-					div 
-						p Drawing
-						img(src='')
+				- for (var i=0; i < games.length; i++) {
+				li(value='#{i}')
+					p #{games[i].details.name}
+					p #{games[i].details.author}
+					img(src='#{games[i].details.headerimg}')
+				- }
 						
 		div.pure-u1.pure-u-md-1-2.fixWidth 
 			p#lobby-player-count.text-right players: #{players.length}/8
