@@ -22,6 +22,8 @@
 	
 	endGame(winners){
 		this._room.endGame(winners);
+		
+		sendMessageToClient("end-game");
 	}
 	
 	sendMessageToClient(type, data){
@@ -39,5 +41,55 @@
 	getPlayerInfo(){
 		return this._room.GetPlayerInfo();
 	}
+	
+	playMusic(hostOnly = True, musicClip, repeate = true){
+		
+		var data = {
+			clip: musicClip,
+			repeate: repeate
+		}
+		
+		if(hostOnly){
+			
+		}
+		else 
+		{
+			sendMessageToClient("music-play", data);	
+		}
+		
+	}
+	
+	pausePlayMusic(pause = true){
+		var data = { pause: pause };
+		
+		sendMessageToClient("music-pausePlay", data);
+	}
+	
+	stopMusic(){
+		sendMessageToClient("music-stop");	
+	}
+	
+	playSoundEffect(soundClip, id){
+		
+		var data = {
+			id: id,
+			clip: soundClip
+		};
+		
+		sendMessageToClient("soundEfct-play", data);	
+	}
+	
+	/*
+	 * If null stops all sound effects
+	 */
+	stopSoundEffect(id){
+		
+		var data = {
+			id: id
+		};
+		
+		sendMessageToClient("soundEfct-stop", data);	
+	}
+	
  	
 }

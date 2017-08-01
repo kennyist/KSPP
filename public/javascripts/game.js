@@ -30,6 +30,75 @@ socket.on("Login-error", function(data) {
 	$("#loginError").html(data);
 });
 
+// Sounds
+
+var soundEffects = [];
+var music;
+
+socket.on("music-play", function(data){
+	music = data.clip;
+	music.play();
+});
+
+socket.on("music-stop", function(){
+	music.stop();
+	music = null;
+});
+
+socket.on("music-pausePlay", function(data){
+	if(data.pause){
+		music.pause();
+	}
+	else {
+		music.play();
+	}
+});
+
+socket.on("soundEfct-play", function(data){
+	
+	for(var i = 0; i < soundEffects.length; i++){
+		if(soundEffects[i].key === data.id){
+			soundEffects[i].clip.stop().play();
+			
+			return;
+		}
+	}
+	
+	soundEffects.push({
+		key: data.id,
+		clip: data.clip
+	});
+	
+	soundEffects[soundEffects.length - 1].clip.play();
+	
+});
+
+ocket.on("soundEfct-stop", function(data){
+	
+	if(data.id != null){
+		for(var i = 0; i < soundEffects.length; i++){
+			if(soundEffects[i].key === data.id){
+				soundEffects[i].clip.stop();
+				
+				return;
+			}
+		}
+	}
+	else 
+	{
+		for(var i = 0; i < soundEffects.length; i++){
+			soundEffects[i].clip.stop();
+		}
+	}
+	
+
+});
+
+socket.on("end-game", function(){
+	music = null;
+	soundEffects = [];
+});
+
 // Joining 
 
 function createRoom(){

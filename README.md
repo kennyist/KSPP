@@ -55,3 +55,20 @@ Functions:
 * getSocket() returns hosts socket
 
 * getPlayerInfo() returns player info for all clients
+
+* PlayMusic() Plays music on the game
+	* HostOnly True/False play on the hosts screen only
+	* musicClip The music clip (Audio variable)
+	* repeate True/False repeate the music
+	
+* pausePlayMusic()
+	* puase True: pause the music. False: play the music
+	
+* stopMusic()	stops music from playing
+
+* playSoundEffect() Play a sound effect in game, can have multple effects going and stored via ID system
+	* soundClip The sound effect file in audio format
+	* id string ID for this clip 
+
+* stopSoundEffect() stops a sound effect by ID 
+	* id if null stops all sound effects or string id of the effect to stop
