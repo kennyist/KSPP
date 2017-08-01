@@ -1,4 +1,7 @@
-// GameLoader.js
+/**
+ * KSPP - game Loader: Custom game Loader
+ * Copyright (C) 2017  Tristan Cunningham
+ */
 'use strict';
 
 module.exports = class GameLoader {

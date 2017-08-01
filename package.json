@@ -1,7 +1,8 @@
 {
   "name": "KS_Party_Pack",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
+  "node-main": "app.js",
   "scripts": {
     "start": "node ./bin/www"
   },

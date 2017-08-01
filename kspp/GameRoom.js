@@ -1,4 +1,7 @@
-// GameRoom.js
+/**
+ * KSPP - Game Room
+ * Copyright (C) 2017  Tristan Cunningham
+ */
    'use strict';
    
 var express = require('express');

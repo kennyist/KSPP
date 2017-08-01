@@ -1,5 +1,6 @@
 /**
- * @author Kennyist
+ * KSPP - game API: Public api for custom games
+ * Copyright (C) 2017  Tristan Cunningham
  */
 
  module.exports = class GamePlayer{

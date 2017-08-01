@@ -1,3 +1,7 @@
+/**
+ * KSPP
+ * Copyright (C) 2017  Tristan Cunningham
+ */
 
 // Importing
 var express = require('express');
@@ -12,12 +16,12 @@ var index = require('./routes/index');
 
 // Game importing
 var config = new require('./config.js'); 				// Import config file
-var GameLoader = new require('./GameLoader.js');		// Import Game Loading class
-var GameRoom = new require('./GameRoom.js');			// Import game room class
-var RoomManager = new require('./RoomManager.js');		// Import room manager class
-var PlayerManager = new require('./PlayerManager.js');	// Import player manager class
-var GamePlayer = new require('./GamePlayer.js');		// Import Game player class
-var api = new require('./gameAPI');
+var GameLoader = new require('./gameLoader.js');		// Import Game Loading class
+var GameRoom = new require('./kspp/GameRoom.js');			// Import game room class
+var RoomManager = new require('./kspp/RoomManager.js');		// Import room manager class
+var PlayerManager = new require('./kspp/PlayerManager.js');	// Import player manager class
+var GamePlayer = new require('./kspp/GamePlayer.js');		// Import Game player class
+var api = new require('./kspp/gameAPI');
 
 // Game Code
 var gl = new GameLoader(config);
@@ -71,7 +75,8 @@ io.on('connection', function(socket) {
         }
     });
 
-    socket.on('disconnect', function () {
+    socket.on('disconnect', function (data) {
+    	console.log("Disconnect: " + data);
         player.disconnected = true;
         setTimeout(function () {							// Start timout, if no reconencted in this time, remove player from server
             if (player.disconnected){

@@ -1,5 +1,6 @@
 /**
- * @author Kennyist
+ * KSPP - Game player
+ * Copyright (C) 2017  Tristan Cunningham
  */
 
  module.exports = class GamePlayer{

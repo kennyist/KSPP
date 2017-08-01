@@ -1,5 +1,6 @@
 /**
- * @author Kennyist
+ * KSPP - Player Manager
+ * Copyright (C) 2017  Tristan Cunningham
  */
 
  module.exports = class PlayerManager{
