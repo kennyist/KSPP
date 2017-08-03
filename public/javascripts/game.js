@@ -22,7 +22,7 @@ socket.on("connect", function(){
 });
 
 socket.on("ReplacePage", function(data) {
-	$("#content").html(data);
+	$(".KSPPcontent").html(data);
 });
 
 socket.on("Login-error", function(data) {
@@ -73,7 +73,7 @@ socket.on("soundEfct-play", function(data){
 	
 });
 
-ocket.on("soundEfct-stop", function(data){
+socket.on("soundEfct-stop", function(data){
 	
 	if(data.id != null){
 		for(var i = 0; i < soundEffects.length; i++){
@@ -140,6 +140,9 @@ socket.on("room-lobby-update", function(data){
 });
 
 $(document).ready(function(){
+	
+	mdc.autoInit();
+	
 	$(document).on("click", "#ready", function(){
 		socket.emit("lobby-ready", UID);
 		$('#ready').hide();

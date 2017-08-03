@@ -74,6 +74,7 @@ module.exports = class GameRoom{
 	 * Start game - Loads game package and starts game
 	 */
 	startGame(){		
+		console.log(this);
 		var game = require(this.packages[this.selectedGame].game);
 		
 		this.gamePackage = new game(this.api, this.players, this.packages[0].dir);

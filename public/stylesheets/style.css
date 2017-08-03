@@ -4,8 +4,27 @@ html{
 
 body {
 	position: relative;
-	color: #777;
 	line-height: 1.6;
+	padding: 0;
+	margin: 0;
+	background: #263238;
+	padding-top: 20px;
+}
+
+.KSPPcontent{
+	min-height: 50px;
+	background: white;
+	margin: auto;
+	padding: 20px;
+	background: #F5F5F6;
+	max-width: 1200px;
+}
+
+.loginForm{
+	margin: auto;
+	max-width: 300px;
+	padding-top: 20px;
+	padding-bottom: 40px;
 }
 
 #drawCanvas{
@@ -36,14 +55,6 @@ body {
 }
 
 /**/
-
-#content {
-	max-width: 800px;
-	width: auto;
-	margin: auto;
-	padding-top: 70px;
-}
-
 .fullWidth {
 	width: 100%;
 }
@@ -107,42 +118,7 @@ h1, h2, h3, h4, h5, h6, label {
 	margin: 0;
 }
 
-/*
- * -- MENU STYLES --
- * I want to customize how my .pure-menu looks at the top of the page
- */
 
-.home-menu {
-	padding: 0.5em;
-	text-align: center;
-	box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
-	background: #2d3e50;
-}
-.pure-menu.pure-menu-fixed {
-	/* Fixed menus normally have a border at the bottom. */
-	border-bottom: none;
-	/* I need a higher z-index here because of the scroll-over effect. */
-	z-index: 4;
-}
-
-.home-menu .pure-menu-heading {
-	color: white;
-	font-weight: 400;
-	font-size: 120%;
-}
-
-.home-menu .pure-menu-selected a {
-	color: white;
-}
-
-.home-menu a {
-	color: #6FBEF3;
-}
-.home-menu li a:hover, .home-menu li a:focus {
-	background: none;
-	border: none;
-	color: #AECFE5;
-}
 
 #joinCreate {
 	margin: auto;

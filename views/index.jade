@@ -1,34 +1,27 @@
 extends layout
 
 block content
-	div#joinCreate
-		h1= title
+	div#joinCreate.loginForm
+		h1.mdc-typography--title Join or Create a game!
+		h2.mdc-typography--caption Enter a username and room code to join a game alternatively you can create a game!
 		
-		form(name="joinCreate", method="post").pure-form.pure-form-stacked
-			fieldset
-				div.input 
-					label(for="name") Player Name
-					p.control
-						input(type="text", name="name", required="required", placeholder="Username").input
-						
-				div.input
-					label(for="code")  Room Code
-					p.control
-						input(type="text", name="code", required="required", placeholder="Room Code").input
-						
-				div.input
-					input(type="submit", value="Join", onclick="joinRoom();return false;").pure-button.pure-button-primary
-					input(type="button", value="Create Room", onclick="createRoom();return false;").pure-button.button-secondary
-					
-				p#loginError.hide 
+		form(name="joinCreate", method="post")
+		
+		
+			div(data-mdc-auto-init="MDCTextfield").mdc-textfield.msc-textfield--upgraded.mdc-textfield--fullwidth
+				input(type="text", name="name", required="required", aria-controls="name-helptext").mdc-textfield__input
+				label(for="name").mdc-textfield__label Player Name
+			p(aria-hidden="true")#name-helptext.mdc-textfield-helptext Your displayed name to other players in games
 				
-	div#footer
-		h4 Help, support, updates? follow us here!
-		a(href='https://www.facebook.com/OfficialKSPP/')
-			img(src='images/FBlogo.png', height='40')
-		a(href='https://twitter.com/Kennyist_Studio')
-			img(src='images/Twitterlogo.png', height='40')
+			div(data-mdc-auto-init="MDCTextfield").mdc-textfield.mdc-textfield--fullwidth
+				input(type="text", name="code", required="required", aria-controls="code-helptext").mdc-textfield__input
+				label(for="code").mdc-textfield__label Room Code
+			p(aria-hidden="true")#code-helptext.mdc-textfield-helptext The 4 Digit room code shown on the lobby screen
 			
-		h4 Feedback form:
-			a(href='https://goo.gl/forms/iCDrqaJ33A5pLMt53')
-				p Link	
+			p#loginError.hide y
+			
+			input(type="submit", value="Join game", onclick="joinRoom();return false;").mdc-button.mdc-button--raised.mdc-button--accent
+			input(type="button", value="Create Room", onclick="createRoom();return false;").mdc-button
+	
+	div.foot
+		

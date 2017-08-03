@@ -17,7 +17,7 @@ var index = require('./routes/index');
 // Game importing
 var config = new require('./config.js'); 				// Import config file
 var GameLoader = new require('./gameLoader.js');		// Import Game Loading class
-var GameRoom = new require('./kspp/GameRoom.js');			// Import game room class
+var GameRoom = new require('./GameRoom.js');			// Import game room class
 var RoomManager = new require('./kspp/RoomManager.js');		// Import room manager class
 var PlayerManager = new require('./kspp/PlayerManager.js');	// Import player manager class
 var GamePlayer = new require('./kspp/GamePlayer.js');		// Import Game player class

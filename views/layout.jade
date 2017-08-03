@@ -1,13 +1,12 @@
 doctype html
-html
+html.mdc-typography
   head
     title= title
     
-    link(rel='stylesheet', href='/stylesheets/pure.css')
-    link(rel='stylesheet', href='/stylesheets/normalize.css')
-    link(rel='stylesheet', href='https://unpkg.com/purecss@0.6.2/build/grids-responsive-min.css')
+    link(rel='stylesheet', href='/stylesheets/main.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+    script(src="/javascripts/material-components-web.js")
     script(src="https://cdn.socket.io/socket.io-1.4.5.js")
     script(src="/javascripts/game.js")
     script(src="/javascripts/canvasDraw.js")
@@ -20,10 +19,6 @@ html
     p#countdown-text Starting in %s
       
   body
-  
-    nav
-      div.home-menu.pure-menu.pure-menu-horizontal.pure-menu-fixed
-        a.pure-menu-heading Party Game System
     
-    div#content     
+    div.KSPPcontent.mdc-elevation--z4    
       block content
