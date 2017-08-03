@@ -15,7 +15,6 @@ body {
 	min-height: 50px;
 	background: white;
 	margin: auto;
-	padding: 20px;
 	background: #F5F5F6;
 	max-width: 1200px;
 }
@@ -25,6 +24,30 @@ body {
 	max-width: 300px;
 	padding-top: 20px;
 	padding-bottom: 40px;
+}
+
+#roomHeader{
+	height: 50px;
+	width: 100%;
+	background: #4f5b62;
+}
+
+.noPad{
+	padding: 0;
+	margin: 0;
+}
+
+.mdc-card__media {
+  height: 90px;
+  
+  img{
+  	height: 100%;
+  	width: 100%;
+  }
+}
+
+.mdc-card{
+	background: white;
 }
 
 #drawCanvas{

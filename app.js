@@ -179,7 +179,7 @@ function joinRoom(player, socket, name, code){
 		player.joinRoom(room.code);
 		room.addPlayer(player.classless());
 		
-		app.render('gameRoom', { code: room.code, players: room.players, host: false  }, function(err, html){
+		app.render('gameRoom', { code: room.code, players: room.players, host: false, games: gl.packages  }, function(err, html){
 			socket.emit("ReplacePage" , html);
 		});																// render room to player
 	} else {															// if room doesnt exist, return error
