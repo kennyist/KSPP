@@ -140,7 +140,7 @@ io.on('connection', function(socket) {
  * @param {string} name
  */
 function createRoom(player, socket, name){									
-	var room = new GameRoom(randomString(config.roomCodeLength), io, app, gl, api);
+	var room = new GameRoom(randomString(config.roomCodeLength), io, app, gl, api, config);
 	player.name = name;
 	player.room = room.code;
 	player.joinRoom(room.code);												// set player socket room code to game room code
@@ -148,7 +148,7 @@ function createRoom(player, socket, name){
 	
 	rm.activeRooms.push(room);												// push room to active rooms
 	
-	app.render('gameRoom', { code: room.code, players: room.players, host: true, games: gl.packages }, function(err, html){
+	app.render('gameRoom', { code: room.code, players: room.players, host: true, games: gl.packages, config: config }, function(err, html){
 		socket.emit("ReplacePage" , html);
 	});																		// render room to host
 }
@@ -164,7 +164,7 @@ function joinRoom(player, socket, name, code){
 	code = code.toUpperCase();
 	
 	if(room = rm.findRoomWithCode(code)){								// does room exist?
-		if(room.players.length > config.roomLimit){						// if room is full, return error
+		if(room.players.length > config.roomPlayerLimit){						// if room is full, return error
 			socket.emit("Login-error", "Room is currently full");
 			return false;
 		}
@@ -174,12 +174,17 @@ function joinRoom(player, socket, name, code){
 			return false;
 		}
 		
+		if(room.doesNameExist(player.name)){
+			socket.emit("login-error", "Name is currently being used in this room");
+			return false;
+		}
+		
 		player.name = name;
 		player.room = code;
 		player.joinRoom(room.code);
 		room.addPlayer(player.classless());
 		
-		app.render('gameRoom', { code: room.code, players: room.players, host: false, games: gl.packages  }, function(err, html){
+		app.render('gameRoom', { code: room.code, players: room.players, host: false, games: gl.packages, config: config  }, function(err, html){
 			socket.emit("ReplacePage" , html);
 		});																// render room to player
 	} else {															// if room doesnt exist, return error

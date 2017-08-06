@@ -4,7 +4,7 @@
     "link": "http://tristanjc.com",
     "name": "Trivia",
     "version": 0.1,
-    "headerimg": "./",
+    "headerimg": "/images/triviahead.png",
     "summary": "Quick pub trivia game!",
     "minPlayers": 2,
     "maxPlayers": 16

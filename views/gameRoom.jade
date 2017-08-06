@@ -1,63 +1,76 @@
 block content
-
-	div#roomHeader
-		div.mdc-layout-grid.noPad.mdc-theme--dark
-			div.mdc-layout-grid__inner
-				div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
-					p 1000
-				
-				div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
-					p 254
-	
-	h1.center Room code #{code}
-	
-	div.mdc-layout-grid
-		div.mdc-layout-grid__inner
-			div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-8
-				- if(host){
-				div.mdc-layout-grid
-					div.mdc-layout-grid__inner
-						- for (var i=0; i < games.length; i++) {
+	div.KSPPcontent.mdc-elevation--z4 
+		div#KSPPHeader.mdc-elevation--z2
+			div.mdc-layout-grid.noPad.mdc-theme--dark
+				div.mdc-layout-grid__inner
+					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
 						
-						div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-4
-							div.mdc-card
-								section.mdc-card__media
-									img(src='#{games[i].details.headerimg}')
-								
-								section.mdc-card__primary
-									h2.mdc-card__title.mdc-card__title--large #{games[i].details.name}
-									h3.mdc-card__subtitle #{games[i].details.author}
-									
-								section.mdc-card__supporting-text #{games[i].details.summary}
-									
-								section.mdc-card__actions
-									button.mdc-button.mdc-button--compact.mdc-card__action Select Game
-									
-						- }
-				- } else {	
-				
-				h3#selectedGame.center Next game is:
-				
-				div.mdc-card
-					section.mdc-card__media
-						img(src='#{games[0].details.headerimg}')
-					section.mdc-card__primary
-						h1.mdc-card__title.mdc-card__title--large #{games[0].details.name}
-						a(href='#{games[0].details.link}')
-							h2.mdc-card__subtitle #{games[0].details.author}
 					
-					section.mdc-card__supporting-text #{games[0].details.summary}
+					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
+						
+		
+		h1.center Room code #{code}
+		
+		- if(host){
+		
+		button(disabled).mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent#ready Start Game: 0/2 players required
+		button.mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent#cancel.hide Stop loading
+		
+		- }
+		
+		div.mdc-layout-grid
+			div.mdc-layout-grid__inner
+				div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-8
+					- if(host){
 					
-				- }
-			div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-4
-				
-				h3#selectedGame.center Players
-				
-				ul.mdc-list.mdc-list--dense.mdc-list--two-line#lobby-players
-					- for (var i=0; i < players.length; i++) {
-					li.mdc-list-item
-						span.mdc-list-item__text #{players[i].name}
-							span.mdc-list-item__text__secondary #{players[i].score} wins
-						span.mdc-list-item__end-detail #{i + 1}st
-					li(role="separator").mdc-list-divider
+					h3.mdc-typography--subheading2 Games:
+					
+					div.mdc-layout-grid
+						div.mdc-layout-grid__inner
+							- for (var i=0; i < games.length; i++) {
+							
+							div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-4
+								div.mdc-card#gameChoice
+									section(style="background-image: url('#{games[i].details.headerimg}')").mdc-card__media
+									
+									section.mdc-card__primary
+										h2.mdc-card__title.mdc-card__title--large #{games[i].details.name}
+										h3.mdc-card__subtitle.mdc-typography--caption #{games[i].details.author}
+										
+									section.mdc-card__supporting-text #{games[i].details.summary}
+										
+									section.mdc-card__actions
+									- if(i < 1){
+										button(value='#{i}', disabled).mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent Select Game
+									- } else {
+										button(value='#{i}').mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent Select Game
+									- }
+										
+							- }
+					- } else {	
+					
+					h3.mdc-typography--subheading2 Next game is:
+					
+					div.mdc-card#selectedGame
+						section(style="background-image: url('#{games[0].details.headerimg}')").mdc-card__media
+						
+						section.mdc-card__primary
+							h1.mdc-card__title.mdc-card__title--large #{games[0].details.name}
+							a(href='#{games[0].details.link}', target="_blank")
+								h2.mdc-card__subtitle.mdc-typography--caption #{games[0].details.author}
+						
+						section.mdc-card__supporting-text #{games[0].details.summary}
+						
 					- }
+				div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-4
+					
+					h3.mdc-typography--subheading2#playerCount 0/#{config.roomPlayerLimit} Players:
+					
+					ul.mdc-list.mdc-list--dense.mdc-list--two-line#lobby-players
+						- for (var i=0; i < players.length; i++) {
+						li.mdc-list-item
+							span.mdc-list-item__text #{players[i].name}
+								span.mdc-list-item__text__secondary #{players[i].score} wins
+							span.mdc-list-item__end-detail #{i + 1}st
+						li(role="separator").mdc-list-divider
+						- }

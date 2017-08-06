@@ -1,0 +1,12 @@
+{
+  "details": {
+    "author": "Tristan 'Kennyist' Cunningham",
+    "link": "http://tristanjc.com",
+    "name": "Score Tester",
+    "version": 0.1,
+    "headerimg": "/images/scorehead.png",
+    "summary": "Quick score assigning game to test the lobby system",
+    "minPlayers": 1,
+    "maxPlayers": 16
+  }
+}

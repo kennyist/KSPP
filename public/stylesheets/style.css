@@ -26,7 +26,13 @@ body {
 	padding-bottom: 40px;
 }
 
-#roomHeader{
+#KSPPHeader{
+	height: 50px;
+	width: 100%;
+	background: #4f5b62;
+}
+
+#KSPPfoot{
 	height: 50px;
 	width: 100%;
 	background: #4f5b62;
@@ -37,17 +43,15 @@ body {
 	margin: 0;
 }
 
-.mdc-card__media {
-  height: 90px;
-  
-  img{
-  	height: 100%;
-  	width: 100%;
-  }
+.mdc-card {
+	background: white;
 }
 
-.mdc-card{
-	background: white;
+.mdc-card__media {
+  background-image: url("default.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 7rem;
 }
 
 #drawCanvas{

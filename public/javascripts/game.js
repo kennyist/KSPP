@@ -22,7 +22,7 @@ socket.on("connect", function(){
 });
 
 socket.on("ReplacePage", function(data) {
-	$(".KSPPcontent").html(data);
+	$("body").html(data);
 });
 
 socket.on("Login-error", function(data) {
@@ -118,25 +118,40 @@ socket.on("room-lobby-update", function(data){
 	
 	var players = "";
 	
-	$('#selectedGame').html("Next game is " + data.game + "!");
-	
 	for(var i = 0; i < data.players.length; i++){
-		players += "<li>" + 
-					"<p class='lobby-players-name'>" + data.players[i].name +
-					" -</p><p class='lobby-players-score'>" + data.players[i].score + 
-					" Wins</p></li>";
+		players += "<li class='mdc-list-item'>" + 
+					"<span class='mdc-list-item__text'>" + data.players[i].name +
+					"<span class='mdc-list-item__text__secondary'>" + data.players[i].score + 
+					" Wins</span></span>"+
+					"<span class='mdc-list-item__end-detail'>1st</span></li>"+
+					"<li class='mdc-list-divider' role='seporator'></li>";
 	}
 	
 	$('#lobby-players').html(players);
-	$('#lobby-player-count').html("Players: " + data.players.length + "/8");
+	$('#playerCount').html(data.players.length + "/" + data.maxPlayers + " Players:");
+	
+	
+	if(data.players.length >= data.minPlayers){
+		$("#ready").html("Start Game");
+		$("#ready").prop("disabled", false);
+	} else {
+		$("#ready").html("Start game: "+ data.players.length + "/" + data.minPlayers + " players required");
+		$("#ready").prop("disabled", true);
+	}
 	
 	if(data.ready){
 		$('#ready').hide();
-		$('#cancle').show();
+		$('#cancel').show();
 	} else {
 		$('#ready').show();
-		$('#cancle').hide();
+		$('#cancel').hide();
 	}
+	
+	$('#selectedGame .mdc-card__media').css("background-image","url('"+data.game.headerimg+"')");
+	$('#selectedGame .mdc-card__title').html(data.game.name);
+	$('#selectedGame .mdc-card__subtitle').html(data.game.author);
+	$('#selectedGame .mdc-card__supporting-text').html(data.game.summary);
+	$('#selectedGame a').attr("href", data.game.link);
 });
 
 $(document).ready(function(){
@@ -149,7 +164,7 @@ $(document).ready(function(){
 		$('#cancle').show();
 	});
 	
-	$(document).on("click", "#cancle", function(){
+	$(document).on("click", "#cancel", function(){
 		socket.emit("lobby-cancleReady", UID);
 		$('#ready').show();
 		$('#cancle').hide();
@@ -195,12 +210,18 @@ $(document).ready(function(){
 		});
 	});
 	
-	$(document).on("click", "#gameChoice li", function(){
+	$(document).on("click", "#gameChoice button", function(){
 		console.log("sent");
 		socket.emit("lobby-changeGame", {
 			uid: UID,
 			game: $(this).val()
 		});
+		
+		$("button:disabled").html("Select game");
+		$("button:disabled").prop('disabled', false);
+		
+		$(this).prop('disabled', true);
+		$(this).html("Selected");
 	});
 	
 });

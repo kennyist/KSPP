@@ -14,28 +14,30 @@ module.exports = class GameRoom{
 	 * @param {io} socket Io
 	 * @param {app} App data
 	 */
-	constructor(code, io, app, gameLoader, api){
+	constructor(code, io, app, gameLoader, api, config){
 		this.code = code;
 		this.players = [];
 		this.io = io;
 		this.app = app;
 		this.ready = false;
-		this.timer = 10000;
-		this.timerM = 10000;		// Timer start time
+		this.timer = 5000;
+		this.timerM = 5000;		// Timer start time
 		this.selectedGame = 0;
 		this.gamePackage = null;
 		this.packages = gameLoader.packages;
 		this.inGame = false;
 		this.host = {};				// host player data
 		this.api = new api(this);
+		this.maxplayers = config.roomPlayerLimit;
+		this.minplayers = 2;
 	}
 	
 	/**
 	 * Start Timer - starts ready countdown
 	 */
 	startTimer(){
-		this.timer = 1000;
-		this.timerM = 1000;
+		this.timer = 5000;
+		this.timerM = 5000;
 		this.ready = true;
 	}
 	
@@ -43,8 +45,8 @@ module.exports = class GameRoom{
 	 * Stop Timer - Stops ready countdown
 	 */
 	stopTimer(){
-		this.timer = 10000;
-		this.timerM = 10000;
+		this.timer = 5000;
+		this.timerM = 5000;
 		this.ready = false;
 		this.updateRoom();
 	}
@@ -200,10 +202,12 @@ module.exports = class GameRoom{
 	updateRoom(message){
 		var data = {
 			players: this.GetPlayerInfo(),
+			maxPlayers: this.maxplayers,
+			minPlayers: this.minplayers,
 			timer: Math.round(this.timer / 1000),
 			ready: this.ready,
 			message: (message) ? message : "Update",
-			game: this.getGameName(this.selectedGame)
+			game: this.packages[this.selectedGame].details
 		};
 		
 		this.io.to(this.code).emit("room-lobby-update", data);
@@ -245,8 +249,19 @@ module.exports = class GameRoom{
 		console.log("change game");
 		if(this.host.id == data.uid){
 			this.selectedGame = data.game;
+			this.minplayers = this.packages[this.selectedGame].details.minPlayers;
 			this.updateRoom();
 		}
+	}
+	
+	doesNameExist(name){
+		for(var i = 0; i < this.players.length; i++){
+			if(this.players.name == name){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 }

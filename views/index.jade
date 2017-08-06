@@ -1,27 +1,38 @@
 extends layout
 
 block content
-	div#joinCreate.loginForm
-		h1.mdc-typography--title Join or Create a game!
-		h2.mdc-typography--caption Enter a username and room code to join a game alternatively you can create a game!
+	div.KSPPcontent.mdc-elevation--z4 
+		div#KSPPHeader.mdc-elevation--z2
+			div.mdc-layout-grid.noPad.mdc-theme--dark
+				div.mdc-layout-grid__inner
+					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
+						
+					
+					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
+						
 		
-		form(name="joinCreate", method="post")
-		
-		
-			div(data-mdc-auto-init="MDCTextfield").mdc-textfield.msc-textfield--upgraded.mdc-textfield--fullwidth
-				input(type="text", name="name", required="required", aria-controls="name-helptext").mdc-textfield__input
-				label(for="name").mdc-textfield__label Player Name
-			p(aria-hidden="true")#name-helptext.mdc-textfield-helptext Your displayed name to other players in games
+		div#joinCreate.loginForm
+			h1.mdc-typography--title Join or Create a game!
+			h2.mdc-typography--caption Enter a username and room code to join a game alternatively you can create a game!
+			
+			form(name="joinCreate", method="post")
+			
+			
+				div(data-mdc-auto-init="MDCTextfield").mdc-textfield.msc-textfield--upgraded.mdc-textfield--fullwidth
+					input(type="text", name="name", required="required", aria-controls="name-helptext").mdc-textfield__input
+					label(for="name").mdc-textfield__label Player Name
+				p(aria-hidden="true")#name-helptext.mdc-textfield-helptext Your displayed name to other players in games
+					
+				div(data-mdc-auto-init="MDCTextfield").mdc-textfield.mdc-textfield--fullwidth
+					input(type="text", name="code", required="required", aria-controls="code-helptext").mdc-textfield__input
+					label(for="code").mdc-textfield__label Room Code
+				p(aria-hidden="true")#code-helptext.mdc-textfield-helptext The 4 Digit room code shown on the lobby screen
 				
-			div(data-mdc-auto-init="MDCTextfield").mdc-textfield.mdc-textfield--fullwidth
-				input(type="text", name="code", required="required", aria-controls="code-helptext").mdc-textfield__input
-				label(for="code").mdc-textfield__label Room Code
-			p(aria-hidden="true")#code-helptext.mdc-textfield-helptext The 4 Digit room code shown on the lobby screen
-			
-			p#loginError.hide y
-			
-			input(type="submit", value="Join game", onclick="joinRoom();return false;").mdc-button.mdc-button--raised.mdc-button--accent
-			input(type="button", value="Create Room", onclick="createRoom();return false;").mdc-button
-	
-	div.foot
+				p#loginError.hide y
+				
+				input(type="submit", value="Join game", onclick="joinRoom();return false;").mdc-button.mdc-button--raised.mdc-button--accent
+				input(type="button", value="Create Room", onclick="createRoom();return false;").mdc-button
 		
+		div#KSPPfoot
+			p 
+			
