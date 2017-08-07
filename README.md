@@ -12,23 +12,32 @@ Game folders are placed in 'root/Games' by default (can be changed in config.js)
   * /views  -  Jade view files
   * config.json - Game config file, needed for author and game details
   * game.js  -  This is the start point when a game is ran
+  
+Currently jade view files are not seperated by game, if both games have a jade view file with the same name the first game alphabeticaly will be used.
 
 ## config.json
 
-This json file contains details section this app uses.
+This json file contains details displayed on the lobby page aswell as required files such as CSS and JS files.
 
 	{
 		"details": {
-			"author": "",
-		    "name": "",
-		    "version": 0,
-		    "headerimg": "./",
-		    "summary": "",
+			"author": "Fred Derfington",
+		    "name": "Summarize",
+		    "version": 1.0,
+		    "headerimg": "./images/header.png",
+		    "summary": "A quick summary game",
 		    "minPlayers": 2,
 		    "maxPlayers": 8
-		}
+		},
+		"stylesheets": [
+			"css/example.css"
+		],
+		"javascripts": [
+			"js/example.js"
+		]
 	}
 
+Style sheets, javascripts and the header image should be from the root of the public folder inside your game package.
 
 ## game.js
 
@@ -37,6 +46,8 @@ The app automatically looks for a file named 'games.js', The app will skip the f
 Functions:
 * start(){}  The start point of the game  
 * tick(){}   Called every app Tick (33ms by default)
+* end(){}	Used to force end the game if minimum players are not met
+* playerLeft(player){} Called when a player leaves the game with their player data
 
 * replacePage(page, data, socket);	Replaces the current view for the client. 
 	* page 	The jade template (stored in the view folder)

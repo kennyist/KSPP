@@ -25,8 +25,8 @@ var api = new require('./kspp/gameAPI');
 
 // Game Code
 var gl = new GameLoader(config);
-var rm = new RoomManager();
 var pm = new PlayerManager();
+var rm = new RoomManager(pm);
 
 
 setInterval(function () {								// Start the tick rate for games
@@ -54,44 +54,65 @@ io.on('connection', function(socket) {
     	
     	console.log("register: " + data);
     	
-        if (data !== null) {								// If data was not empty
-            if (player = pm.existsUID(data)) {				// find playter by UID - if session exists
-            	player.socket = socket;
-            	player.joinRoom(player.room);
-            	if(player.room){
-            		rm.findRoomWithCode(player.room).updatePlayer(player);
-            	}
-                player.disconnected = false;
-                console.log("Reconected: " + player.id);
-            } else {										// new player if UID not exist
-                player = new GamePlayer(socket);
-                player.id = data;
-                pm.addPlayer(player);
-            }
+        if (data !== null) {								// If data was not empty        	
+        	
+            if (player = pm.existsUID(data)) {				// find player by UID - if session exists
+            	
+            	if( typeof player.room !== 'undefined' && player.room){
+			        if(room = rm.findRoomWithCode(player.room)){		// if player was in room
+				        if(room.host.id == player.id){						// if player was host
+				    		rm.remove(player.room);					// remove room
+				    	} else {
+				    		room.removePlayer(player);
+				    	}
+			        }
+		        }
+	        
+	        	pm.remove(player);               
+            }										// new player if UID not exist
+            
+            player = new GamePlayer(socket);
+            player.id = data;
+            pm.addPlayer(player);
+            
         } else {											// create new player
             player = new GamePlayer(socket);
             player.id = data;
             pm.addPlayer(player);
         }
+        
+        var i = rm.activeRoomsCount();
+        var j = pm.activePlayers();
+        io.sockets.emit("Count-players", j);
+        io.sockets.emit("Count-rooms", i);
     });
 
     socket.on('disconnect', function (data) {
     	console.log("Disconnect: " + data);
-        player.disconnected = true;
-        setTimeout(function () {							// Start timout, if no reconencted in this time, remove player from server
-            if (player.disconnected){
-            	
-            	if(room = rm.findRoomWithCode(player.room)){		// if player was in room
-	            	if(room.host == player.id){						// if player was host
-	            		if(toom.host.id == player.id)
-	            			rm.remove(player.room);					// remove room
-	            	}
-            	}
-            	
-            	pm.remove(player);									// remove player
-            	console.log("player removed: "+player.id);
-            }
-        }, config.maxIdleTime);
+    	
+    	if(data == "ping timeout")
+    		return false;
+    	 
+        if(typeof player == 'undefined')
+       		return false;
+        
+        if( typeof player.room !== 'undefined' && player.room){
+	        if(room = rm.findRoomWithCode(player.room)){		// if player was in room
+		        if(room.host.id == player.id){						// if player was host
+		    		rm.remove(player.room);					// remove room
+		    	} else {
+		    		room.removePlayer(player);
+		    	}
+	        }
+        }
+        
+        pm.remove(player);
+        console.log("player removed: "+player.id);
+        
+        var i = rm.activeRoomsCount();
+        var j = pm.activePlayers();
+        io.sockets.emit("Count-players", j);
+        io.sockets.emit("Count-rooms", i);
     });
     
     // lobby
@@ -127,7 +148,9 @@ io.on('connection', function(socket) {
 	});
 	
 	socket.on('game-answer', function(data){								// on player answer game question
-		rm.findRoomWithCode(pm.getPlayerRoomCode(data.uid)).sendGameMessage(data); // pass to room manager to pass to game
+		if(rm.findRoomWithCode(pm.getPlayerRoomCode(data.uid))){
+			rm.findRoomWithCode(pm.getPlayerRoomCode(data.uid)).sendGameMessage(data); // pass to room manager to pass to game
+		}
 	});
 	
 	// Debug
@@ -147,10 +170,16 @@ function createRoom(player, socket, name){
 	room.addHost(player.classless());										// set player as host
 	
 	rm.activeRooms.push(room);												// push room to active rooms
+	console.log(rm.activeRooms);
 	
-	app.render('gameRoom', { code: room.code, players: room.players, host: true, games: gl.packages, config: config }, function(err, html){
+	app.render('gameRoom', { code: room.code, players: room.players, host: true, games: gl.packages, config: config, selGame: 0}, function(err, html){
 		socket.emit("ReplacePage" , html);
 	});																		// render room to host
+	
+	var i = rm.activeRoomsCount();
+    io.sockets.emit("Count-rooms", i);
+    var j = pm.activePlayers();
+    io.sockets.emit("Count-players", j);
 }
 
 /**
@@ -174,23 +203,32 @@ function joinRoom(player, socket, name, code){
 			return false;
 		}
 		
+		player.name = name;
+		
 		if(room.doesNameExist(player.name)){
-			socket.emit("login-error", "Name is currently being used in this room");
+			socket.emit("Login-error", "Name is currently being used in this room");
+			player.name = null;
 			return false;
 		}
 		
-		player.name = name;
 		player.room = code;
 		player.joinRoom(room.code);
 		room.addPlayer(player.classless());
 		
-		app.render('gameRoom', { code: room.code, players: room.players, host: false, games: gl.packages, config: config  }, function(err, html){
+		app.render('gameRoom', { code: room.code, players: room.players, host: false, games: gl.packages, config: config, selGame: 0 }, function(err, html){
 			socket.emit("ReplacePage" , html);
-		});																// render room to player
+		});		
+		
+		room.updateRoom();														// render room to player
 	} else {															// if room doesnt exist, return error
 		socket.emit("Login-error", "Sorry, This room cannot be found");
 		return false;
 	}
+	
+	var i = rm.activeRoomsCount();
+    var j = pm.activePlayers();
+    io.sockets.emit("Count-players", j);
+    io.sockets.emit("Count-rooms", i);
 }
 
 /**

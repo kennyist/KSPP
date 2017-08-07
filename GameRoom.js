@@ -29,7 +29,8 @@ module.exports = class GameRoom{
 		this.host = {};				// host player data
 		this.api = new api(this);
 		this.maxplayers = config.roomPlayerLimit;
-		this.minplayers = 2;
+		this.minplayers = this.packages[0].details.minPlayers;
+		this.forceclosed = null;
 	}
 	
 	/**
@@ -49,6 +50,13 @@ module.exports = class GameRoom{
 		this.timerM = 5000;
 		this.ready = false;
 		this.updateRoom();
+	}
+	
+	killRoom(pm){
+		
+		pm.unlinkRoom(this.players);
+		
+		this.replacePage("index", { error: "Host left the game, Returned to index"});
 	}
 	
 	/**
@@ -79,9 +87,11 @@ module.exports = class GameRoom{
 		console.log(this);
 		var game = require(this.packages[this.selectedGame].game);
 		
-		this.gamePackage = new game(this.api, this.players, this.packages[0].dir);
+		this.gamePackage = new game(this.api, this.players, this.packages[this.selectedGame].dir);
 		this.inGame = true;
 		this.gamePackage.start();
+		
+		this.sendMessageToClient("loadStyles", this.packages[this.selectedGame].stylesheets);
 	}
 	
 	getGameName(index){		
@@ -92,6 +102,7 @@ module.exports = class GameRoom{
 	 * end game - End game and sends winners to room
 	 */
 	endGame(winners){
+		this.sendMessageToClient("removeStyles", this.packages[this.selectedGame].stylesheets);
 		this.inGame = false;
 		this.gamePackage = null;
 		
@@ -106,8 +117,11 @@ module.exports = class GameRoom{
 			}
 		}
 		
-		this.replacePage('gameRoom', { code: this.code, players: this.players, games: this.packages });
-		this.replacePage('gameRoom', { code: this.code, players: this.players, host: true, games: this.packages }, this.host.socket);
+		this.replacePage('gameRoom', { error: this.forceclosed, code: this.code, players: this.players, games: this.packages, config: this.config, selGame: this.selectedGame });
+		this.replacePage('gameRoom', { error: this.forceclosed, code: this.code, players: this.players, host: true, games: this.packages, config: this.config,  selGame: this.selectedGame }, this.host.socket);
+		
+		this.forceclosed = null;
+		this.updateRoom();
 	}
 	
 	/**
@@ -137,6 +151,27 @@ module.exports = class GameRoom{
 		this.stopTimer();
 	}
 	
+	removePlayer(player){
+		
+		for(var i = 0; i < this.players.length; i++){
+			if(this.players[i].id == player.id){
+				this.players.splice(i,1);
+			}
+		}
+		
+		this.stopTimer();
+		
+		if(this.inGame){
+			if(this.players.length < this.minplayers){
+				this.forceclosed = "Minimum players not met, Closed game";
+				this.gamePackage.end();
+			} else {
+				this.gamePackage.playerLeft(player);
+			}
+		} else {
+			this.updateRoom("Player Left");
+		}
+	}
 	
 	updatePlayer(player){
 		for(var i = 0; i < this.players.length; i++){
@@ -170,7 +205,7 @@ module.exports = class GameRoom{
 	replacePage(page, data, socket){
 		if(!data) data = {};
 		
-		console.log(page);
+		console.log("Loading page: "+ page);
 		
 		var temp, host;
 		
@@ -184,8 +219,6 @@ module.exports = class GameRoom{
 		this.app.render(page, data, function(err, html){
 			host = html;
 		});
-		
-		console.log(temp);
 		
 		if(socket){
 			socket.emit("ReplacePage" , temp);
@@ -211,10 +244,18 @@ module.exports = class GameRoom{
 		};
 		
 		this.io.to(this.code).emit("room-lobby-update", data);
-		this.io.to(this.code).emit("game-timerbar", {
-			text: "Game starts in: " + data.timer,
-			width: (this.timer / this.timerM) * 100
-		});
+		
+		if(this.ready){
+			this.io.to(this.code).emit("game-timerbar", {
+				text: "Game starts in: " + data.timer,
+				width: (this.timer / this.timerM) * 100
+			});
+		} else {
+			this.io.to(this.code).emit("game-timerbar", {
+				text: "Waiting for players",
+				width: (this.timer / this.timerM) * 100
+			});
+		}
 	}
 	
 	/*
@@ -256,7 +297,8 @@ module.exports = class GameRoom{
 	
 	doesNameExist(name){
 		for(var i = 0; i < this.players.length; i++){
-			if(this.players.name == name){
+			console.log(name + " : " + this.players[i].name);
+			if(this.players[i].name == name){
 				return true;
 			}
 		}

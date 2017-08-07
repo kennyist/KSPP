@@ -30,6 +30,37 @@ socket.on("Login-error", function(data) {
 	$("#loginError").html(data);
 });
 
+// Game setup
+
+socket.on("loadStyles", function(data){
+	console.log(data);
+	
+	for(var i = 0; i < data.length; i++){
+		var styles = document.createElement('link');
+	    styles.type="text/css";
+	    styles.rel="stylesheet";
+	    styles.href="./"+ data[i];
+	    document.head.appendChild(styles);
+   }
+});
+
+socket.on("removeStyles", function(data){
+	console.log(data);
+	for(var i = 0; i < data.length; i++){
+		$('link[rel=stylesheet][href~="./'+ data[i] +'"]').remove();
+   }
+});
+
+// Stats
+
+socket.on("Count-players", function(data){
+	$("#activeplayers").html(data);
+});
+
+socket.on("Count-rooms", function(data){
+	$("#activerooms").html(data);
+});
+
 // Sounds
 
 var soundEffects = [];
@@ -155,6 +186,14 @@ socket.on("room-lobby-update", function(data){
 });
 
 $(document).ready(function(){
+	
+	window.onbeforeunload = confirmExit;
+	
+	function confirmExit()
+	{
+	  socket.emit("Disconnectme", UID);
+	}
+  
 	
 	mdc.autoInit();
 	

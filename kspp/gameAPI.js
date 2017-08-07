@@ -21,9 +21,11 @@
 	}
 	
 	endGame(winners){
+		console.log("Game ended");
+		
 		this._room.endGame(winners);
 		
-		sendMessageToClient("end-game");
+		this.sendMessageToClient("end-game");
 	}
 	
 	sendMessageToClient(type, data){

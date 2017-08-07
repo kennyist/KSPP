@@ -3,8 +3,13 @@
 
 module.exports = class RoomManager{
 	
-	constructor(){
+	constructor(playerManager){
 		this.activeRooms = [];
+		this.pm = playerManager;
+	}
+	
+	activeRoomsCount(){
+		return this.activeRooms.length;
 	}
 	
 	/*
@@ -35,8 +40,10 @@ module.exports = class RoomManager{
 	 * @param {string} room code
 	 */
 	remove(code){
+		
 		for(var i = 0; i < this.activeRooms.length; i++){
  			if(this.activeRooms[i].code == code){
+ 				this.activeRooms[i].killRoom(this.pm);
  				this.activeRooms.splice(i,1);
  			}
  		}

@@ -273,7 +273,7 @@ module.exports = class GamePaint {
 		
 		this.parent.replacePage("paintSuggest", {
 			host : true
-		}, this.parent.host.socket);
+		}, this.parent.getSocket().socket);
 		
 		this.timerM = 30000;
 	}
@@ -297,7 +297,7 @@ module.exports = class GamePaint {
 		
 		this.parent.replacePage("paintDraw", {
 			host : true
-		}, this.parent.host.socket);
+		}, this.parent.getSocket().socket);
 		
 		this.timerM = 30000;
 		

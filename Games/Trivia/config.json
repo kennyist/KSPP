@@ -8,5 +8,11 @@
     "summary": "Quick pub trivia game!",
     "minPlayers": 2,
     "maxPlayers": 16
-  }
+  },
+  "stylesheets": [
+  
+  ],
+  "javascripts": [
+  
+  ]
 }

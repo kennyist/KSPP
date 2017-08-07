@@ -141,10 +141,20 @@ module.exports = class GameTrivia {
 	loadEndScreen() {
 		this.parent.replacePage("triviaEnd", {
 			data : this.data.questions[this.currentQuestion],
-			players : this.players.sort(this.parent.sortFunction, "gameScore")
+			players : this.players.sort(this.sortFunction, "gameScore")
 		});
 		this.timerM = 10000;
 	}
+	
+	sortFunction(a, b, index) {
+	    if (a[index] === b[index]) {
+	        return 0;
+	    }
+	    else {
+	        return (a[index] < b[index]) ? -1 : 1;
+	    }
+	}
+	
 
 	loadQuestion() {
 		this.currentQuestion = this.getRandomInt(0, this.data.questions.length - 1);

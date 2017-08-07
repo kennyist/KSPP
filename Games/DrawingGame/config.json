@@ -8,5 +8,11 @@
     "summary": "Quick drawing based game",
     "minPlayers": 2,
     "maxPlayers": 8
-  }
+  },
+  "stylesheets": [
+  
+  ],
+  "javascripts": [
+  
+  ]
 }

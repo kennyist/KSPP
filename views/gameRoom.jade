@@ -4,16 +4,28 @@ block content
 			div.mdc-layout-grid.noPad.mdc-theme--dark
 				div.mdc-layout-grid__inner
 					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
+						p.stats
+							i(aria-hidden="true").fa.fa-users
+							span#activeplayers 0
 						
-					
 					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
-						
+						p.stats
+							i(aria-hidden="true").fa.fa-gamepad
+							span#activerooms 0 
+		
+		div#countdown-bar-bg
+			div#countdown-bar
+			
+			p#countdown-text Waiting for players
 		
 		h1.center Room code #{code}
+		- if (typeof(error) !== 'undefined'){
+		h2.mdc-typograhpy--subheading2.red #{error}
+		- }
 		
 		- if(host){
 		
-		button(disabled).mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent#ready Start Game: 0/2 players required
+		button(disabled).mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent#ready Start Game: 0/#{games[selGame].details.minPlayers} players required
 		button.mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent#cancel.hide Stop loading
 		
 		- }
@@ -40,8 +52,8 @@ block content
 									section.mdc-card__supporting-text #{games[i].details.summary}
 										
 									section.mdc-card__actions
-									- if(i < 1){
-										button(value='#{i}', disabled).mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent Select Game
+									- if(i == selGame){
+										button(value='#{i}', disabled).mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent Selected
 									- } else {
 										button(value='#{i}').mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent Select Game
 									- }
@@ -52,19 +64,19 @@ block content
 					h3.mdc-typography--subheading2 Next game is:
 					
 					div.mdc-card#selectedGame
-						section(style="background-image: url('#{games[0].details.headerimg}')").mdc-card__media
+						section(style="background-image: url('#{games[selGame].details.headerimg}')").mdc-card__media
 						
 						section.mdc-card__primary
-							h1.mdc-card__title.mdc-card__title--large #{games[0].details.name}
+							h1.mdc-card__title.mdc-card__title--large #{games[selGame].details.name}
 							a(href='#{games[0].details.link}', target="_blank")
-								h2.mdc-card__subtitle.mdc-typography--caption #{games[0].details.author}
+								h2.mdc-card__subtitle.mdc-typography--caption #{games[selGame].details.author}
 						
-						section.mdc-card__supporting-text #{games[0].details.summary}
+						section.mdc-card__supporting-text #{games[selGame].details.summary}
 						
 					- }
 				div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-4
 					
-					h3.mdc-typography--subheading2#playerCount 0/#{config.roomPlayerLimit} Players:
+					h3.mdc-typography--subheading2#playerCount 0/8 Players:
 					
 					ul.mdc-list.mdc-list--dense.mdc-list--two-line#lobby-players
 						- for (var i=0; i < players.length; i++) {

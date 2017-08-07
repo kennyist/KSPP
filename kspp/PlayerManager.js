@@ -9,6 +9,10 @@
  		this.players = [];
  	}	
  	
+ 	activePlayers(){
+ 		return this.players.length;
+ 	}
+ 	
  	/*
 	 * add Player - Adds player to server
 	 * @param {GamePlayer} PlayerData
@@ -39,6 +43,12 @@
  				console.log("id: " + id + " found");
  				return this.players[i];
  			}
+ 		}
+ 	}
+ 	
+ 	unlinkRoom(players){
+ 		for(var i = 0; i < players.length; i++){
+ 			this.existsUID(players[i].id).room = null;
  		}
  	}
  	

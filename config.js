@@ -1,4 +1,6 @@
 var config = {};
+config.games = {};
+// Do not edit above
 
 config.port = 8000; 		// Server port
 config.roomCodeLength = 4;	// Length of room join code
@@ -7,9 +9,9 @@ config.roomLimit = 10;		// Max Rooms allowed
 config.maxIdleTime = 1000;	// Time before session delete
 config.tickRate = 33;	// Game refresh rate
 
-config.games = {}; 
+// Games
 config.games.directory = "./Games"; // Local Games Directory;
-config.games.filter = []; 			// Names (Directory Name) of games to filter out
+config.games.filter = ['']; 		// Names (Directory Name, case sensitive) of games to filter out
 
 
 module.exports = config;

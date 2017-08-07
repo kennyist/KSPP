@@ -8,5 +8,11 @@
     "summary": "Quick score assigning game to test the lobby system",
     "minPlayers": 1,
     "maxPlayers": 16
-  }
+  },
+  "stylesheets": [
+  	"css/scoreTester.css"
+  ],
+  "javascripts": [
+  
+  ]
 }

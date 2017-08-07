@@ -54,6 +54,7 @@ module.exports = class GameLoader {
 				    if (fs.existsSync(dir + "/" + name + "/config.json")) {
 					    var temp = require(dir + "/" + name + "/config.json");
 					    insert.details = temp.details;
+					    insert.stylesheets = temp.stylesheets;
 					    console.log('Config found, Game: '+ insert.details.name+' - Version: '+ insert.details.version +' - Author: '+ insert.details.author +' - Link: '+ insert.details.link);
 					    
 					    if(fs.existsSync(dir + "/" + name + "/public")){

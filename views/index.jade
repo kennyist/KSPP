@@ -6,12 +6,21 @@ block content
 			div.mdc-layout-grid.noPad.mdc-theme--dark
 				div.mdc-layout-grid__inner
 					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
+						p.stats
+							i(aria-hidden="true").fa.fa-users
+							span#activeplayers 0
 						
-					
 					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
-						
+						p.stats
+							i(aria-hidden="true").fa.fa-gamepad
+							span#activerooms 0 
 		
 		div#joinCreate.loginForm
+		
+			- if (typeof(error) !== 'undefined'){
+			p.red #{error}
+			- }
+			
 			h1.mdc-typography--title Join or Create a game!
 			h2.mdc-typography--caption Enter a username and room code to join a game alternatively you can create a game!
 			
