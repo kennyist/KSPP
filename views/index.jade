@@ -42,6 +42,25 @@ block content
 				input(type="submit", value="Join game", onclick="joinRoom();return false;").mdc-button.mdc-button--raised.mdc-button--accent
 				input(type="button", value="Create Room", onclick="createRoom();return false;").mdc-button
 		
-		div#KSPPfoot
-			p 
+		div#KSPPfoot.mdc-elevation--z2
+			div.mdc-layout-grid.noPad.mdc-theme--dark
+					div.mdc-layout-grid__inner
+						div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-2
+							- if(config.footer.survey){ 
+							p.stats
+								a(href="https://docs.google.com/forms/d/1KfdlHXFKSomGYgkaDnCJ73QUCImndmlcobTBC0YX3uY", target="_blank")
+									Alpha feedback survey
+							- }
+							
+						div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-8
+							p.stats	(c) 2017 
+									a(href="http://tristanjc.com", target="_blank") Tristan Cunningham
+								
+						div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-2
+							ul.socialLinks
+								- for(var i = 0; i < config.footer.links.length; i++){
+								li
+									a(href="#{config.footer.links[i].link}")
+										i.fa(class="#{config.footer.links[i].icon}")
+								- }
 			

@@ -16,7 +16,7 @@ var index = require('./routes/index');
 
 // Game importing
 var config = new require('./config.js'); 				// Import config file
-var GameLoader = new require('./gameLoader.js');		// Import Game Loading class
+var GameLoader = new require('./GameLoader.js');		// Import Game Loading class
 var GameRoom = new require('./GameRoom.js');			// Import game room class
 var RoomManager = new require('./kspp/RoomManager.js');		// Import room manager class
 var PlayerManager = new require('./kspp/PlayerManager.js');	// Import player manager class
@@ -269,7 +269,11 @@ gl.packages.forEach(function(data){
 	}
 });
 
-app.use('/', index);
+//app.use('/', index);
+
+app.get('/', function(req, res) {
+  return res.render('index', {config: config});
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -96,7 +96,7 @@ module.exports = class GameLoader {
 		var array = [];
 		
 		for(var i=0,j=this.packages.length; i<j; i++){
-		  array.push(path.join(basePath, this.packages[i].dir + "\\views"));
+		  array.push(path.join(basePath, this.packages[i].dir + "/views"));
 		};
 		
 		return array;

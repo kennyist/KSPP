@@ -1,6 +1,12 @@
 # KSPP
 Party Pack Game Service
 
+Official website: http://kspp.us-east-2.elasticbeanstalk.com/
+
+##instilation:
+
+##configuration:
+
 # API:  
   
 ## File Structer  
@@ -41,7 +47,7 @@ Style sheets, javascripts and the header image should be from the root of the pu
 
 ## game.js
 
-The app automatically looks for a file named 'games.js', The app will skip the folder if no games.js exists.
+The app automatically looks for a file named 'game.js', The app will skip the folder if no game.js exists.
 
 Functions:
 * start(){}  The start point of the game  
@@ -83,3 +89,8 @@ Functions:
 
 * stopSoundEffect() stops a sound effect by ID 
 	* id if null stops all sound effects or string id of the effect to stop
+
+##Extras:
+
+* Press kit: www.tristanjc.com/press
+* Feedback survey: https://docs.google.com/forms/d/1KfdlHXFKSomGYgkaDnCJ73QUCImndmlcobTBC0YX3uY

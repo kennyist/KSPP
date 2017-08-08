@@ -1,5 +1,6 @@
 var config = {};
 config.games = {};
+config.footer = {};
 // Do not edit above
 
 config.port = 8000; 		// Server port
@@ -12,6 +13,24 @@ config.tickRate = 33;	// Game refresh rate
 // Games
 config.games.directory = "./Games"; // Local Games Directory;
 config.games.filter = ['']; 		// Names (Directory Name, case sensitive) of games to filter out
+
+
+// Footer
+config.footer.survey = true;
+config.footer.links = [
+	{
+		icon: "fa-github",
+		link: "http://www.github.com/kspp"
+	},
+	{
+		icon: "fa-twitter",
+		link: ""
+	},
+	{
+		icon: "fa-facebook",
+		link: ""
+	}
+];
 
 
 module.exports = config;

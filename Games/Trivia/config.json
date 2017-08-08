@@ -10,7 +10,7 @@
     "maxPlayers": 16
   },
   "stylesheets": [
-  
+  	"css/trivia.css"
   ],
   "javascripts": [
   

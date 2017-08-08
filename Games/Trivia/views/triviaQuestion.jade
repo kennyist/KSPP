@@ -1,11 +1,2 @@
-h1.center #{data.text}
-
-ul.fullWidth
-	- for(var i = 0; i < data.answers.length; i++){
-	li.answer 
-		- if(host){
-		h4 #{i}) #{data.answers[i].text}
-		- } else {
-		button(value="#{i}").pure-button.fullWidth.button-secondary #{data.answers[i].text}
-		-}
-	- }
+block content
+	div#trivia

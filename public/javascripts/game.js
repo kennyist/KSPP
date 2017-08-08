@@ -2,7 +2,7 @@
  * @author Kennyist
  */
 
-var socket = io(); 
+var socket = io('http://kspp.us-east-2.elasticbeanstalk.com:8000'); 
 var UID = "";
 
 // SETUP 

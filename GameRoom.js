@@ -124,6 +124,10 @@ module.exports = class GameRoom{
 		this.updateRoom();
 	}
 	
+	getPlayersSortedByScore(){
+		console.log(players);	
+	}
+	
 	/**
 	 * get player from room 
 	 * @return {array} player data
@@ -244,6 +248,8 @@ module.exports = class GameRoom{
 		};
 		
 		this.io.to(this.code).emit("room-lobby-update", data);
+		
+		this.getPlayersSortedByScore();
 		
 		if(this.ready){
 			this.io.to(this.code).emit("game-timerbar", {
