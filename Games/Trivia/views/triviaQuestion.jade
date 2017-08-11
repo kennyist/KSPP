@@ -1,2 +1,28 @@
-block content
-	div#trivia
+div#trivia
+
+	h1.center #{data.text}
+	
+	ul.fullWidth
+		- for(var i = 0; i < data.answers.length; i++){
+		li.answer 
+			- if(host){
+			h4.hostanswer #{data.answers[i].text}
+			- } else {
+			button(value="#{i}").mdc-button.mdc-button--accent.mdc-button--raised #{data.answers[i].text}
+			-}
+		- }
+		
+	- if(host){
+	
+	div.answers
+		ul
+			- for(var i = 0; i < players.length; i++){
+			
+			li(value="#{i}").mdc-elevation--z4.no
+			
+			- }	
+	- }
+		
+	div#countdown-bar-bg
+		div#countdown-bar
+		p#countdown-text Waiting for players

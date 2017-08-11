@@ -1,0 +1,25 @@
+{
+	"translation": {
+		"language": "French",
+		"shortCode": "fr",
+		"icon": "fr.png"
+	},
+	"strings":{
+		"joinCreate": "Rejoignez-vous ou créez un jeu!",
+		"joinCreateInfo": "Entrez un nom d'utilisateur et un code de pièce pour vous joindre à un jeu ou vous pouvez créer un jeu!",
+		"howTo": "Comment jouer",
+		"join": "Rejoins une partie",
+		"create": "Créer une chambre",
+		"playerName": "Nom de joueur",
+		"roomCode": "Code de la chambre",
+		"start": "Démarrer jeu",
+		"playersReq": "Joueurs requis",
+		"games": "Jeux",
+		"players": "joueurs",
+		"leave": "Quitter la pièce",
+		"nextGame": "Le prochain jeu est",
+		"wins": "Gagne",
+		"surveyInfo": "Ce site est actuellement en alpha et peut-être des bugs ou d'autres problèmes, veuillez utiliser le lien d'enquête de retour ci-dessous pour nous aider à réparer et à améliorer ce site!",
+		"feedback": "Alpha Feedback Umfrage"
+	}
+}

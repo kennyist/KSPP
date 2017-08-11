@@ -1,8 +1,14 @@
-/**
- * KSPP - Game Room
- * Copyright (C) 2017  Tristan Cunningham
+/*!
+ * KSPP
+ * GAME ROOM CLASS
+ * 
+ * 	This class handles game room logic, loading and stopping games, parsing messages from app to game.
+ * 
+ * Copyright(c) 2017 Tristan James Cunningham
+ * MIT Licensed
  */
-   'use strict';
+   
+'use strict';
    
 var express = require('express');
 
@@ -14,7 +20,7 @@ module.exports = class GameRoom{
 	 * @param {io} socket Io
 	 * @param {app} App data
 	 */
-	constructor(code, io, app, gameLoader, api, config){
+	constructor(code, io, app, gameLoader, api, config, tl){
 		this.code = code;
 		this.players = [];
 		this.io = io;
@@ -31,6 +37,8 @@ module.exports = class GameRoom{
 		this.maxplayers = config.roomPlayerLimit;
 		this.minplayers = this.packages[0].details.minPlayers;
 		this.forceclosed = null;
+		this.config = config;
+		this.translations = tl;
 	}
 	
 	/**
@@ -56,7 +64,7 @@ module.exports = class GameRoom{
 		
 		pm.unlinkRoom(this.players);
 		
-		this.replacePage("index", { error: "Host left the game, Returned to index"});
+		this.replacePage("index", { error: "Host left the game, Returned to index", config: this.config});
 	}
 	
 	/**
@@ -84,10 +92,9 @@ module.exports = class GameRoom{
 	 * Start game - Loads game package and starts game
 	 */
 	startGame(){		
-		console.log(this);
 		var game = require(this.packages[this.selectedGame].game);
 		
-		this.gamePackage = new game(this.api, this.players, this.packages[this.selectedGame].dir);
+		this.gamePackage = new game(this.api, this.players, this.packages[this.selectedGame].dir, this.config);
 		this.inGame = true;
 		this.gamePackage.start();
 		
@@ -109,7 +116,6 @@ module.exports = class GameRoom{
 		if(winners){
 			for(var i = 0; i < winners.length; i++){
 				for(var j = 0; j < this.players.length; j++){
-					console.log(winners[i] + " - " + this.players[j].id);
 					if(winners[i] == this.players[j].id){
 						this.players[j].score++;
 					}
@@ -124,8 +130,21 @@ module.exports = class GameRoom{
 		this.updateRoom();
 	}
 	
-	getPlayersSortedByScore(){
-		console.log(players);	
+	getPlayersSortedByScore(){		
+		
+		var players = this.players.sort(function(a,b) {
+
+		  return parseInt(b.score,10) - parseInt(a.score,10);
+		
+		});;
+		
+		var ret = [];
+		
+		for(var i = 0; i < this.players.length; i++){
+			ret.push({name: players[i].name, score: players[i].score, id: players[i].id});
+		}
+		
+		return ret;
 	}
 	
 	/**
@@ -209,9 +228,10 @@ module.exports = class GameRoom{
 	replacePage(page, data, socket){
 		if(!data) data = {};
 		
-		console.log("Loading page: "+ page);
-		
 		var temp, host;
+		data.config = this.config;
+		data.strings = this.translations.translations["en"];
+  		data.translations = this.translations.transInfo;
 		
 		this.app.render(page, data, function(err, html){
 			temp = html;
@@ -238,7 +258,7 @@ module.exports = class GameRoom{
 	 */
 	updateRoom(message){
 		var data = {
-			players: this.GetPlayerInfo(),
+			players: this.getPlayersSortedByScore(),
 			maxPlayers: this.maxplayers,
 			minPlayers: this.minplayers,
 			timer: Math.round(this.timer / 1000),
@@ -248,8 +268,6 @@ module.exports = class GameRoom{
 		};
 		
 		this.io.to(this.code).emit("room-lobby-update", data);
-		
-		this.getPlayersSortedByScore();
 		
 		if(this.ready){
 			this.io.to(this.code).emit("game-timerbar", {
@@ -276,8 +294,14 @@ module.exports = class GameRoom{
 	 * send message to clents - Send message to all room clients
 	 * @param {data} message data
 	 */
-	sendMessageToClient(type, data){
-		this.io.to(this.code).emit(type, data);
+	sendMessageToClient(type, data, socket = null){
+		
+		
+		if(socket){
+			socket.emit(type, data);
+		} else {
+			this.io.to(this.code).emit(type, data);
+		}
 	}
 	
 	/*
@@ -293,7 +317,6 @@ module.exports = class GameRoom{
 	}
 	
 	changeGame(data){
-		console.log("change game");
 		if(this.host.id == data.uid){
 			this.selectedGame = data.game;
 			this.minplayers = this.packages[this.selectedGame].details.minPlayers;
@@ -303,7 +326,6 @@ module.exports = class GameRoom{
 	
 	doesNameExist(name){
 		for(var i = 0; i < this.players.length; i++){
-			console.log(name + " : " + this.players[i].name);
 			if(this.players[i].name == name){
 				return true;
 			}

@@ -1,6 +1,12 @@
-/**
- * KSPP - Player Manager
- * Copyright (C) 2017  Tristan Cunningham
+/*!
+ * KSPP
+ * PLAYER MANAGER CLASS
+ * 
+ * 	This class handles all players connected and functions to find players by ID's, remove players from games and from the
+ * 	system.
+ * 
+ * Copyright(c) 2017 Tristan James Cunningham
+ * MIT Licensed
  */
 
  module.exports = class PlayerManager{
@@ -27,7 +33,6 @@
 	 */
  	getPlayerRoomCode(id){
  		var player = this.existsUID(id);
- 		console.log(player);
  		
  		return player.room;
  	}
@@ -40,7 +45,14 @@
  	existsUID(id){
  		for(var i = 0; i < this.players.length; i++){
  			if(this.players[i].id == id){
- 				console.log("id: " + id + " found");
+ 				return this.players[i];
+ 			}
+ 		}
+ 	}
+ 	
+ 	existsSocketID(id){
+ 		for(var i = 0; i < this.players.length; i++){
+ 			if(this.players[i].socket.id == id){
  				return this.players[i];
  			}
  		}

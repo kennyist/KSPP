@@ -3,34 +3,44 @@ block content
 		div#KSPPHeader.mdc-elevation--z2
 			div.mdc-layout-grid.noPad.mdc-theme--dark
 				div.mdc-layout-grid__inner
-					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
+					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-2
 						p.stats
 							i(aria-hidden="true").fa.fa-users
 							span#activeplayers 0
-					
-					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
-						p.stats
+							
 							i(aria-hidden="true").fa.fa-gamepad
 							span#activerooms 0 
+							
+					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
+						p.stats 
+							span#lang #{lang} 
+								div#langbox
+									ul.mdc-list
+									- for(var i = 0; i < translations.length; i++){
+										li(val="#{translations[i].shortCode}").mdc-list-item #{translations[i].language}
+									- }
+							
+					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-7
+						p.siteName #{config.name}
 					
 					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-2
 						p.stats
 							i(aria-hidden="true").fa.fa-sign-out 
-							span Leave room
+							span#leaveroom Leave room
 		
 		div#countdown-bar-bg
 			div#countdown-bar
 			
 			p#countdown-text Waiting for players
 		
-		h1.center Room code #{code}
+		h1.center #{strings.roomCode} #{code}
 		- if (typeof(error) !== 'undefined'){
 		h2.mdc-typograhpy--subheading2.red #{error}
 		- }
 		
 		- if(host){
 		
-		button(disabled).mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent#ready Start Game: 0/#{games[selGame].details.minPlayers} players required
+		button(disabled).mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent#ready #{strings.start}: 0/#{games[selGame].details.minPlayers} #{strings.playersReq}
 		button.mdc-button.mdc-button--compact.mdc-card__action.mdc-button--raised.mdc-button--accent#cancel.hide Stop loading
 		
 		- }
@@ -40,7 +50,7 @@ block content
 				div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-8
 					- if(host){
 					
-					h3.mdc-typography--subheading2 Games:
+					h3.mdc-typography--subheading2 #{strings.games}:
 					
 					div.mdc-layout-grid
 						div.mdc-layout-grid__inner
@@ -66,7 +76,7 @@ block content
 							- }
 					- } else {	
 					
-					h3.mdc-typography--subheading2 Next game is:
+					h3.mdc-typography--subheading2 #{strings.nextGame}:
 					
 					div.mdc-card#selectedGame
 						section(style="background-image: url('#{games[selGame].details.headerimg}')").mdc-card__media
@@ -81,13 +91,34 @@ block content
 					- }
 				div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-4
 					
-					h3.mdc-typography--subheading2#playerCount 0/8 Players:
+					h3.mdc-typography--subheading2#playerCount 0/8 #{strings.players}:
 					
 					ul.mdc-list.mdc-list--dense.mdc-list--two-line#lobby-players
 						- for (var i=0; i < players.length; i++) {
 						li.mdc-list-item
 							span.mdc-list-item__text #{players[i].name}
-								span.mdc-list-item__text__secondary #{players[i].score} wins
+								span.mdc-list-item__text__secondary #{players[i].score} #{strings.wins}
 							span.mdc-list-item__end-detail #{i + 1}st
 						li(role="separator").mdc-list-divider
 						- }
+						
+		div#KSPPfoot.mdc-elevation--z2
+			div.mdc-layout-grid.noPad.mdc-theme--dark
+					div.mdc-layout-grid__inner
+						div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-2
+							- if(config.footer.survey){ 
+							p
+								a(href="https://docs.google.com/forms/d/1KfdlHXFKSomGYgkaDnCJ73QUCImndmlcobTBC0YX3uY", target="_blank") #{strings.feedback}
+							- }
+							
+						div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-8
+							p (c) 2017 
+									a(href="http://tristanjc.com", target="_blank") Tristan Cunningham
+								
+						div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-2
+							ul.socialLinks
+								- for(var i = 0; i < config.footer.links.length; i++){
+								li
+									a(href="#{config.footer.links[i].link}")
+										i.fa(class="#{config.footer.links[i].icon}")
+								- }

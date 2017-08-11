@@ -1,19 +1,26 @@
-- if(host){
-h1 Waiting for everyone to answer
-- } else {
-
-- if(owner){
-
-h1.center You drew this! wait for everyone else
-
-- } else {
-
-img(width="400px", height="400px", src="#{src}")
-
-h4.center What do you think this is?
-
-input(type="text")#drawAnswer
-button#drawAnswerSend Send 
-
--}
--}
+div#drawing
+	- if(host){
+	h1.center What is this picture?
+	
+	img(width="400px", height="400px", src="#{src}").center
+	- } else {
+	
+	- if(owner){
+	
+	h1.center You drew this!
+	
+	- } else {
+	
+	img(width="400px", height="400px", src="#{src}").center
+	
+	h4.center What do you think this is?
+	
+	input(type="text")#drawAnswer
+	button.mdc-button.mdc-button--raised.mdc-button--accent#drawAnswerSend Send 
+	
+	-}
+	-}
+	
+	div#countdown-bar-bg
+		div#countdown-bar
+		p#countdown-text Waiting for players

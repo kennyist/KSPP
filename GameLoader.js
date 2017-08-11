@@ -1,7 +1,14 @@
-/**
- * KSPP - game Loader: Custom game Loader
- * Copyright (C) 2017  Tristan Cunningham
+/*!
+ * KSPP
+ * GAME LOADER CLASS
+ * 
+ * 	This class handles looking for and checking over games before being stored in the system for GAMEROOM class to use.
+ * 
+ * Copyright(c) 2017 Tristan James Cunningham
+ * MIT Licensed
  */
+
+
 'use strict';
 
 module.exports = class GameLoader {

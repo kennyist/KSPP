@@ -1,5 +1,12 @@
-// RoomManager.js
-   'use strict';
+/*!
+ * KSPP
+ * ROOM MANAGER CLASS
+ * 
+ * 	This class handles game all the rooms created and provides functions to find rooms and remove rooms from the system.
+ * 
+ * Copyright(c) 2017 Tristan James Cunningham
+ * MIT Licensed
+ */
 
 module.exports = class RoomManager{
 	
@@ -47,7 +54,5 @@ module.exports = class RoomManager{
  				this.activeRooms.splice(i,1);
  			}
  		}
- 		
- 		console.log("Room removed");
 	}
 }

@@ -1,4 +1,13 @@
-// scoreTester
+/*!
+ * KSPP
+ * Score Tester
+ * 
+ * 	This is a basic game running on KSPP API that assigns a score to a random person and sends everyone back to the lobby
+ * 
+ * Copyright(c) 2017 Tristan James Cunningham
+ * MIT Licensed
+ */
+
 'use strict';
 
 module.exports = class scoreTester {

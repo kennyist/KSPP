@@ -1,19 +1,31 @@
 extends layout
 
 block content
+
 	div.KSPPcontent.mdc-elevation--z4 
 		div#KSPPHeader.mdc-elevation--z2
 			div.mdc-layout-grid.noPad.mdc-theme--dark
 				div.mdc-layout-grid__inner
-					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
+					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-2
 						p.stats
 							i(aria-hidden="true").fa.fa-users
 							span#activeplayers 0
-						
-					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
-						p.stats
+							
 							i(aria-hidden="true").fa.fa-gamepad
 							span#activerooms 0 
+							
+					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-1
+						p.stats 
+							span#lang #{lang} 
+								div#langbox
+									ul.mdc-list
+									- for(var i = 0; i < translations.length; i++){
+										li(val="#{translations[i].shortCode}").mdc-list-item #{translations[i].language}
+									- }
+								
+						
+					div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-6
+						p.siteName #{config.name}
 		
 		div#joinCreate.loginForm
 		
@@ -21,40 +33,45 @@ block content
 			p.red #{error}
 			- }
 			
-			h1.mdc-typography--title Join or Create a game!
-			h2.mdc-typography--caption Enter a username and room code to join a game alternatively you can create a game!
+			h1.mdc-typography--title #{strings.joinCreate}
+			h2.mdc-typography--caption #{strings.joinCreateInfo}
+			h3.mdc-typography--caption 
+				a(href='https://www.facebook.com/OfficialKSPP/posts/1924691761122191') #{strings.howTo}
 			
 			form(name="joinCreate", method="post")
 			
 			
 				div(data-mdc-auto-init="MDCTextfield").mdc-textfield.msc-textfield--upgraded.mdc-textfield--fullwidth
 					input(type="text", name="name", required="required", aria-controls="name-helptext").mdc-textfield__input
-					label(for="name").mdc-textfield__label Player Name
+					label(for="name").mdc-textfield__label #{strings.playerName}
 				p(aria-hidden="true")#name-helptext.mdc-textfield-helptext Your displayed name to other players in games
 					
 				div(data-mdc-auto-init="MDCTextfield").mdc-textfield.mdc-textfield--fullwidth
-					input(type="text", name="code", required="required", aria-controls="code-helptext").mdc-textfield__input
-					label(for="code").mdc-textfield__label Room Code
+					input(type="text", name="code", required="required", aria-controls="code-helptext", autocomplete="off").mdc-textfield__input
+					label(for="code").mdc-textfield__label #{strings.roomCode}
 				p(aria-hidden="true")#code-helptext.mdc-textfield-helptext The 4 Digit room code shown on the lobby screen
 				
 				p#loginError.hide y
 				
-				input(type="submit", value="Join game", onclick="joinRoom();return false;").mdc-button.mdc-button--raised.mdc-button--accent
-				input(type="button", value="Create Room", onclick="createRoom();return false;").mdc-button
-		
+				input(type="submit", value="#{strings.join}", onclick="joinRoom();return false;").mdc-button.mdc-button--raised.mdc-button--accent
+				input(type="button", value="#{strings.create}", onclick="createRoom();return false;").mdc-button
+			
+			- if(config.footer.survey){			
+			h2.mdc-typography--caption #{strings.surveyInfo}
+			- }
+			
 		div#KSPPfoot.mdc-elevation--z2
 			div.mdc-layout-grid.noPad.mdc-theme--dark
 					div.mdc-layout-grid__inner
 						div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-2
 							- if(config.footer.survey){ 
-							p.stats
-								a(href="https://docs.google.com/forms/d/1KfdlHXFKSomGYgkaDnCJ73QUCImndmlcobTBC0YX3uY", target="_blank")
-									Alpha feedback survey
+							p
+								a(href="https://docs.google.com/forms/d/1KfdlHXFKSomGYgkaDnCJ73QUCImndmlcobTBC0YX3uY", target="_blank") #{strings.feedback}
 							- }
 							
 						div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-8
-							p.stats	(c) 2017 
-									a(href="http://tristanjc.com", target="_blank") Tristan Cunningham
+							p (c) 2017 
+								a(href="http://tristanjc.com", target="_blank") Tristan Cunningham
 								
 						div.mdc-layout-grid__cell.mdc-layout-grid__cell--span-2
 							ul.socialLinks

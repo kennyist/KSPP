@@ -1,0 +1,25 @@
+{
+	"translation": {
+		"language": "English",
+		"shortCode": "en",
+		"icon": "/images/en.png"
+	},
+	"strings":{
+		"joinCreate": "Join or create a game!",
+		"joinCreateInfo": "Enter a username and room code to join a game alternatively you can create a game!",
+		"howTo": "How to play",
+		"join": "Join game",
+		"create": "Create room",
+		"playerName": "Player Name",
+		"roomCode": "Room Code",
+		"start": "Start game",
+		"playersReq": "Players required",
+		"games": "Games",
+		"players": "players",
+		"leave": "Leave room",
+		"nextGame": "Next game is",
+		"wins": "wins",
+		"surveyInfo": "This website is currently in alpha and may have bugs or other problems, Please use the feedback survey link below to help us fix and improve this website!",
+		"feedback": "Alpha Feedback Survey"
+	}
+}

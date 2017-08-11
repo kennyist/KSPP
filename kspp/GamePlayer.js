@@ -1,6 +1,11 @@
-/**
- * KSPP - Game player
- * Copyright (C) 2017  Tristan Cunningham
+/*!
+ * KSPP
+ * GAME PLAYER CLASS
+ * 
+ * 	This class contains player data and functions for players
+ * 
+ * Copyright(c) 2017 Tristan James Cunningham
+ * MIT Licensed
  */
 
  module.exports = class GamePlayer{

@@ -1,0 +1,18 @@
+{
+  "details": {
+    "author": "Author",
+    "link": "http://site.com",
+    "name": "Game name",
+    "version": 0.0,
+    "headerimg": "/images/head.png",
+    "summary": "Summary",
+    "minPlayers": 1,
+    "maxPlayers": 16
+  },
+  "stylesheets": [
+  	"css/template.css"
+  ],
+  "javascripts": [
+  	"js/template.css"
+  ]
+}

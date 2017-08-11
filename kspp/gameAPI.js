@@ -1,9 +1,15 @@
-/**
- * KSPP - game API: Public api for custom games
- * Copyright (C) 2017  Tristan Cunningham
+/*!
+ * KSPP
+ * GAME API
+ * 
+ * 	This class handles public functions between game room and and Game packages
+ * 
+ * Copyright(c) 2017 Tristan James Cunningham
+ * MIT Licensed
  */
 
- module.exports = class GamePlayer{
+
+ module.exports = class GameAPI{
  	
  	constructor(room){
 		this._room = room;
@@ -28,15 +34,20 @@
 		this.sendMessageToClient("end-game");
 	}
 	
-	sendMessageToClient(type, data){
-		this._room.sendMessageToClient(type, data);
+	sendMessageToClient(type, data, socket = null){
+		
+		if(socket){
+			this._room.sendMessageToClient(type, data, socket);
+		} else {
+			this._room.sendMessageToClient(type, data);
+		}
 	}
 	
 	sortFunction(a, b, index){
 		return this._room.sortFunction(a, b, index);
 	}
 	
-	getSocket(){
+	getHostSocket(){
 		return this._room.host.socket;
 	}
 	
@@ -52,11 +63,11 @@
 		}
 		
 		if(hostOnly){
-			
+			this.sendMessageToClient("music-play", data, this.getSocket());
 		}
 		else 
 		{
-			sendMessageToClient("music-play", data);	
+			this.sendMessageToClient("music-play", data);	
 		}
 		
 	}
@@ -64,21 +75,25 @@
 	pausePlayMusic(pause = true){
 		var data = { pause: pause };
 		
-		sendMessageToClient("music-pausePlay", data);
+		this.sendMessageToClient("music-pausePlay", data);
 	}
 	
 	stopMusic(){
-		sendMessageToClient("music-stop");	
+		this.sendMessageToClient("music-stop");	
 	}
 	
-	playSoundEffect(soundClip, id){
+	playSoundEffect(hostonly = false, soundClip, id){
 		
 		var data = {
 			id: id,
 			clip: soundClip
 		};
 		
-		sendMessageToClient("soundEfct-play", data);	
+		if(hostonly){
+			this.sendMessageToClient("soundEfct-play", data, this.getSocket());
+		} else {
+			this.sendMessageToClient("soundEfct-play", data);	
+		}
 	}
 	
 	/*
@@ -90,7 +105,7 @@
 			id: id
 		};
 		
-		sendMessageToClient("soundEfct-stop", data);	
+		this.sendMessageToClient("soundEfct-stop", data);	
 	}
 	
  	

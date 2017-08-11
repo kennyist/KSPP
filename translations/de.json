@@ -1,0 +1,25 @@
+{
+	"translation": {
+		"language": "German",
+		"shortCode": "de",
+		"icon": "de.png"
+	},
+	"strings":{
+		"joinCreate": "Verbinden Sie oder erstellen Sie ein Spiel!",
+		"joinCreateInfo": "Geben Sie einen Benutzernamen und Zimmercode ein, um sich einem Spiel anzuschließen, alternativ können Sie ein Spiel erstellen!",
+		"howTo": "Spielanleitung",
+		"join": "Spiel beitreten",
+		"create": "Platz schaffen",
+		"playerName": "Spielername",
+		"roomCode": "Zimmercode",
+		"start": "Spiel beginnen",
+		"playersReq": "Spieler erforderlich",
+		"games": "Spiele",
+		"players": "Spieler",
+		"leave": "Zimmer verlassen",
+		"nextGame": "Das nächste Spiel ist",
+		"wins": "Gewinnt",
+		"surveyInfo": "Diese Website ist derzeit in alpha und kann Fehler oder andere Probleme haben, bitte verwenden Sie die Feedback-Umfrage Link unten, um uns zu helfen, zu beheben und zu verbessern diese Website!",
+		"feedback": "Alpha Feedback Umfrage"
+	}
+}

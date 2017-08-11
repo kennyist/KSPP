@@ -11,12 +11,38 @@ body {
 	padding-top: 20px;
 }
 
+#langbox{
+	position: absolute;
+	top: 60px;
+	background: white;
+	padding: 5px;
+	border: 3px #444 solid;
+	display: none;
+	z-index: 999999;
+}
+
+#langbox li{
+	cursor: pointer;
+}
+
 .KSPPcontent{
 	min-height: 50px;
 	background: white;
 	margin: auto;
 	background: #F5F5F6;
 	max-width: 1200px;
+}
+
+#lang{
+	cursor: pointer;
+}
+
+p.siteName{
+	color: white;
+	font-weight: bold;
+	font-size: large;
+	text-align: center;
+	line-height: 20px;
 }
 
 p.stats{
@@ -38,7 +64,7 @@ p.stats span{
 
 .loginForm{
 	margin: auto;
-	max-width: 300px;
+	max-width: 400px;
 	padding-top: 20px;
 	padding-bottom: 40px;
 }
@@ -221,3 +247,29 @@ li.answer button {
 	font-weight: 600;
 }
 
+#KSPPfoot{
+	
+}
+
+#KSPPfoot *{
+	color: white;
+}
+
+#KSPPfoot ul{
+	list-style: none;
+}
+
+#KSPPfoot ul li{
+	display: inline-block;
+	margin-left: 5px;
+}
+
+#KSPPfoot i{
+	font-size: 25px;
+}
+
+#KSPPfoot p{
+	text-align: center;
+	font-size: 12px;
+	padding-top: 5px;
+}

@@ -1,6 +1,7 @@
-/**
+/*!
  * KSPP
- * Copyright (C) 2017  Tristan Cunningham
+ * Copyright(c) 2017 Tristan James Cunningham
+ * MIT Licensed
  */
 
 // Importing
@@ -17,6 +18,7 @@ var index = require('./routes/index');
 // Game importing
 var config = new require('./config.js'); 				// Import config file
 var GameLoader = new require('./GameLoader.js');		// Import Game Loading class
+var TranslationLoader = new require('./kspp/translation.js');	// Import translation Loading class
 var GameRoom = new require('./GameRoom.js');			// Import game room class
 var RoomManager = new require('./kspp/RoomManager.js');		// Import room manager class
 var PlayerManager = new require('./kspp/PlayerManager.js');	// Import player manager class
@@ -25,6 +27,7 @@ var api = new require('./kspp/gameAPI');
 
 // Game Code
 var gl = new GameLoader(config);
+var tl = new TranslationLoader(config);
 var pm = new PlayerManager();
 var rm = new RoomManager(pm);
 
@@ -52,11 +55,11 @@ io.on('connection', function(socket) {
 
     socket.on('register', function (data) {					// Register game player (data = UID)
     	
-    	console.log("register: " + data);
+    	console.log(data);
     	
         if (data !== null) {								// If data was not empty        	
         	
-            if (player = pm.existsUID(data)) {				// find player by UID - if session exists
+            if (player = pm.existsUID(data.id)) {				// find player by UID - if session exists
             	
             	if( typeof player.room !== 'undefined' && player.room){
 			        if(room = rm.findRoomWithCode(player.room)){		// if player was in room
@@ -72,12 +75,14 @@ io.on('connection', function(socket) {
             }										// new player if UID not exist
             
             player = new GamePlayer(socket);
-            player.id = data;
+            player.id = data.id;
+            player.lang = data.lang;
             pm.addPlayer(player);
             
         } else {											// create new player
             player = new GamePlayer(socket);
-            player.id = data;
+            player.id = data.id;
+            player.lang = data.lang;
             pm.addPlayer(player);
         }
         
@@ -88,7 +93,17 @@ io.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function (data) {
-    	console.log("Disconnect: " + data);
+    	console.log("Disconnect: " + data + " ID: " + socket.id);
+    	
+    	if(typeof socket.id !== 'undefined'){
+    		if (player = pm.existsSocketID(socket.id)) {
+    			
+    		} else {
+    			return false;
+    		}
+    	} else {
+    		return false;
+    	}
     	
     	if(data == "ping timeout")
     		return false;
@@ -107,9 +122,30 @@ io.on('connection', function(socket) {
         }
         
         pm.remove(player);
-        console.log("player removed: "+player.id);
         
         var i = rm.activeRoomsCount();
+        var j = pm.activePlayers();
+        io.sockets.emit("Count-players", j);
+        io.sockets.emit("Count-rooms", i);
+    });
+    
+    socket.on('leaveroom', function (data) {
+		
+		if (player = pm.existsUID(data)) {
+			if(room = rm.findRoomWithCode(player.room)){		// if player was in room
+		        if(room.host.id == player.id){						// if player was host
+		    		rm.remove(player.room);					// remove room
+		    	} else {
+		    		room.removePlayer(player);
+		    	}
+	        }
+		}
+		
+		app.render('index', {config: config}, function(err, html){
+			socket.emit("ReplacePage" , html);
+		});	
+		
+		var i = rm.activeRoomsCount();
         var j = pm.activePlayers();
         io.sockets.emit("Count-players", j);
         io.sockets.emit("Count-rooms", i);
@@ -118,17 +154,14 @@ io.on('connection', function(socket) {
     // lobby
     
     socket.on('lobby-ready', function(data) {						// When lobby ready button pressed
-    	console.log("Room ready " + data);
     	rm.findRoomWithCode(pm.getPlayerRoomCode(data)).startTimer();
 	});
 	
 	socket.on('lobby-cancleReady', function(data) {					// when lobby cancle button is pressed
-    	console.log("Room Cancled " + data);
     	rm.findRoomWithCode(pm.getPlayerRoomCode(data)).stopTimer();
 	});
 	
 	socket.on('lobby-changeGame', function(data) {					// when lobby change game is pressed
-    	console.log(data);
     	rm.findRoomWithCode(pm.getPlayerRoomCode(data.uid)).changeGame(data);
 	});
     
@@ -163,18 +196,27 @@ io.on('connection', function(socket) {
  * @param {string} name
  */
 function createRoom(player, socket, name){									
-	var room = new GameRoom(randomString(config.roomCodeLength), io, app, gl, api, config);
+	var room = new GameRoom(randomString(config.roomCodeLength), io, app, gl, api, config, tl);
 	player.name = name;
 	player.room = room.code;
 	player.joinRoom(room.code);												// set player socket room code to game room code
 	room.addHost(player.classless());										// set player as host
 	
 	rm.activeRooms.push(room);												// push room to active rooms
-	console.log(rm.activeRooms);
 	
-	app.render('gameRoom', { code: room.code, players: room.players, host: true, games: gl.packages, config: config, selGame: 0}, function(err, html){
+	app.render('gameRoom', { 
+		code: room.code, 
+		players: room.players, 
+		host: true, 
+		games: gl.packages, 
+		config: config, 
+		selGame: 0,
+		strings: tl.translations[player.lang],
+  		translations: tl.transInfo,
+  		lang: player.lang
+	}, function(err, html){
 		socket.emit("ReplacePage" , html);
-	});																		// render room to host
+	});																	// render room to host
 	
 	var i = rm.activeRoomsCount();
     io.sockets.emit("Count-rooms", i);
@@ -215,7 +257,17 @@ function joinRoom(player, socket, name, code){
 		player.joinRoom(room.code);
 		room.addPlayer(player.classless());
 		
-		app.render('gameRoom', { code: room.code, players: room.players, host: false, games: gl.packages, config: config, selGame: 0 }, function(err, html){
+		app.render('gameRoom', { 
+			code: room.code, 
+			players: room.players, 
+			host: false, 
+			games: gl.packages, 
+			config: config, 
+			selGame: 0 ,
+			strings: tl.translations[player.lang],
+  			translations: tl.transInfo,
+  			lang: player.lang
+		}, function(err, html){
 			socket.emit("ReplacePage" , html);
 		});		
 		
@@ -264,15 +316,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 gl.packages.forEach(function(data){
 	if(data.hasPublic){
-		//console.log(path.join(__dirname, config.games.directory + '/' + data.folderName + '/public'));
 		app.use(express.static(path.join(__dirname, config.games.directory + '/' + data.folderName + '/public')));
 	}
 });
 
-//app.use('/', index);
+app.set("tl", tl);
 
-app.get('/', function(req, res) {
-  return res.render('index', {config: config});
+app.use('/', index, function(req, res){
 });
 
 // catch 404 and forward to error handler

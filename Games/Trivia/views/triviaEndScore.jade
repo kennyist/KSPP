@@ -1,26 +1,30 @@
-block content
-	div#trivia
+div#trivia
+
+	h4.center Correct answer was:
+	h3.center #{data.answers[data.correct].text}
 	
-		- if(host){
+	- if(host){
+	
+	ul.mdc-list.mdc-list--two-line
+	- for (var i = 0; i < players.length; i++){
+	- if(data.correct == players[i].answer){
+		li.mdc-list-item
+			span.mdc-list-item__text #{players[i].name}
+				span.mdc-list-item__text__secondary #{players[i].gameScore}
+			span.mdc-list-item__end-detail +#{players[i].scoreTA}
 		
-		h4.center Correct answer was:
-		h3.center #{data.answers[data.correct].text}
-		
-		- for (var i = 0; i < players.length; i++){
-		- if(data.correct == players[i].answer){
-		div.trivia-score-box.correct
-			h3.center #{players[i].name}
-			p.center +#{players[i].scoreTA}!
-			p.center Current score: #{players[i].gameScore}
-		-} else {
-		div.trivia-score-box.wrong
-			h3.center #{players[i].name}
-			p.center Current score: #{players[i].gameScore}
-		- }
-		- }
-		
-		- } else {
-		
-		h2.center Waiting for next question
-		
-		- }
+	
+	-} else {
+		li.mdc-list-item
+			span.mdc-list-item__text #{players[i].name}
+				span.mdc-list-item__text__secondary #{players[i].gameScore}
+			span.mdc-list-item__end-detail Wrong answer
+			
+	- }
+	- }
+	
+	- }
+	
+	div#countdown-bar-bg
+		div#countdown-bar
+		p#countdown-text Waiting for players

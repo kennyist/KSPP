@@ -1,12 +1,17 @@
-- if(host){
-h3 You have all been asked to draw something on your devices
-- } else {
-
-h3.center Draw a #{word}
-
-canvas(width="400px", height="400px")#drawCanvas
-script $("#drawCanvas").sketch();
-
-button.pure-button.button-success.fullWidth#sendPicture Send
-
-- }
+div#drawing
+	- if(host){
+	h3.center You all have a picture to draw on your devices!
+	- } else {
+	
+	h3.center Draw a "#{word}"
+	
+	canvas(width="400px", height="400px")#drawCanvas
+	script $("#drawCanvas").sketch();
+	
+	button.mdc-button.mdc-button--raised.mdc-button--accent.fullWidth#sendPicture Send
+	
+	- }
+	
+	div#countdown-bar-bg
+		div#countdown-bar
+		p#countdown-text Waiting for players

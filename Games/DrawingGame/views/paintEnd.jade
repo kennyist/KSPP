@@ -1,5 +1,4 @@
-div#trivia
-
+div#drawing
 	- if(host){
 	ul.mdc-list.mdc-list--two-line
 		- for(var i = 0; i < players.length; i++){
@@ -10,11 +9,7 @@ div#trivia
 			span.mdc-list-item__end-detail #{players[i].gameScore}
 		
 		li.mdc-list-divider(role="seperator")
-		- }
-	- } else {
-	h1 Game ended, waiting for lobby
-	- }
 	
-	div#countdown-bar-bg
-		div#countdown-bar
-		p#countdown-text Waiting for players
+	- } else {
+	h1.center Game over! returning to lobby soon
+	- }

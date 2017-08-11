@@ -10,7 +10,7 @@
     "maxPlayers": 8
   },
   "stylesheets": [
-  
+  	"css/drawing.css"
   ],
   "javascripts": [
   

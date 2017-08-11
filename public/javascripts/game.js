@@ -1,8 +1,14 @@
-/**
- * @author Kennyist
+/*!
+ * KSPP
+ * WEBSITE JS FUNCTIONS
+ * 
+ * 	This file handles all js elements on the website
+ * 
+ * Copyright(c) 2017 Tristan James Cunningham
+ * MIT Licensed
  */
 
-var socket = io('http://kspp.us-east-2.elasticbeanstalk.com:8000'); 
+var socket = io("http://kspp.us-east-2.elasticbeanstalk.com:8000");
 var UID = "";
 
 // SETUP 
@@ -17,7 +23,7 @@ socket.on("connect", function(){
 		UID = localStorage.getItem('gameUniqueId');
 	}
 	
-	socket.emit('register', localStorage.getItem('gameUniqueId'));
+	socket.emit('register', { id: localStorage.getItem('gameUniqueId'), lang: $.cookie("lang") });
 	console.log("sent: " + localStorage.getItem('gameUniqueId'));
 });
 
@@ -67,7 +73,7 @@ var soundEffects = [];
 var music;
 
 socket.on("music-play", function(data){
-	music = data.clip;
+	music = new Audio(data.clip);
 	music.play();
 });
 
@@ -87,9 +93,12 @@ socket.on("music-pausePlay", function(data){
 
 socket.on("soundEfct-play", function(data){
 	
+	console.log("Effect: " + data.key);
+	
 	for(var i = 0; i < soundEffects.length; i++){
 		if(soundEffects[i].key === data.id){
-			soundEffects[i].clip.stop().play();
+			soundEffects[i].clip.currentTime=0;
+			soundEffects[i].clip.play();
 			
 			return;
 		}
@@ -97,7 +106,7 @@ socket.on("soundEfct-play", function(data){
 	
 	soundEffects.push({
 		key: data.id,
-		clip: data.clip
+		clip: new Audio(data.clip)
 	});
 	
 	soundEffects[soundEffects.length - 1].clip.play();
@@ -154,7 +163,7 @@ socket.on("room-lobby-update", function(data){
 					"<span class='mdc-list-item__text'>" + data.players[i].name +
 					"<span class='mdc-list-item__text__secondary'>" + data.players[i].score + 
 					" Wins</span></span>"+
-					"<span class='mdc-list-item__end-detail'>1st</span></li>"+
+					"<span class='mdc-list-item__end-detail'>"+ numberSuffix(i+1) +"</span></li>"+
 					"<li class='mdc-list-divider' role='seporator'></li>";
 	}
 	
@@ -186,6 +195,20 @@ socket.on("room-lobby-update", function(data){
 });
 
 $(document).ready(function(){
+	
+	// COOKIES
+	
+	console.log("cookies");
+	
+	if(!$.cookie("lang")){
+		console.log("cookie not found");
+		var CookieSet = $.cookie("lang", "en", {
+		   expires : 365,
+		   path    : '/'
+		   });
+	}
+	
+	//
 	
 	window.onbeforeunload = confirmExit;
 	
@@ -223,6 +246,10 @@ $(document).ready(function(){
 	});
 	
 	$(document).on("click", "#drawAnswerSend", function(){
+		
+		if($('#drawAnswer').val() == "")
+			return false;
+		
 		socket.emit("game-answer", {
 			uid: UID,
 			answer: $('#drawAnswer').val(),
@@ -232,19 +259,10 @@ $(document).ready(function(){
 	
 	
 	$(document).on("click", "#drawAnswer button", function(){
-		console.log("sent");
+		console.log("sent: " + $(this).attr("val"));
 		socket.emit("game-answer", {
 			uid: UID,
-			answer: $(this).val(),
-			messageType: "answer"
-		});
-	});
-	
-	$(document).on("click", "#drawAnswer button", function(){
-		console.log("sent");
-		socket.emit("game-answer", {
-			uid: UID,
-			answer: $(this).val(),
+			answer: $(this).attr("val"),
 			messageType: "answer"
 		});
 	});
@@ -263,6 +281,33 @@ $(document).ready(function(){
 		$(this).html("Selected");
 	});
 	
+	$(document).on("click", "#leaveroom", function(){
+		
+		location.reload(); 
+		
+		return false; 
+		
+		console.log("sent");
+		socket.emit("leaveroom", {
+			uid: UID
+		});
+		
+		$('#countdown-bar-bg').hide();
+	});
+	
+	$(document).on("click", "#lang", function(){
+		$('#langbox').show();
+	});
+	
+	$(document).on("click", "#langbox li", function(){
+		var CookieSet = $.cookie("lang", $(this).attr("val"), {
+		   expires : 365,
+		   path    : '/'
+		   });
+		   
+		   location.reload(); 
+	});
+	
 });
 
 // game
@@ -277,3 +322,25 @@ socket.on("game-timerbar", function(data) {
 		$("#countdown-bar-bg").hide();
 	}
 });
+
+socket.on("trivia-panswer", function(data){
+	console.log("Got answer: " + data);
+	$("li[value='"+ data +"']").removeClass("no");
+	$("li[value='"+ data +"']").addClass("yes");
+});
+
+// helpers
+
+function numberSuffix(i) {
+    var j = i % 10, k = i % 100;
+    if (j == 1 && k != 11) {
+        return i + "st";
+    }
+    if (j == 2 && k != 12) {
+        return i + "nd";
+    }
+    if (j == 3 && k != 13) {
+        return i + "rd";
+    }
+    return i + "th";
+}

@@ -1,9 +1,29 @@
-- if(host){
-
-
-
-- } else {
-
-h1 scores are being shown on the main page
-
--}
+div#drawing
+	- if(host){
+	
+	- for(var i = 0; i < data.length; i++){
+	- if(i > 0){
+	h5 #{data[i].title} #{data[i].answer} - #{data[i].score} points
+	- } else {
+	h5 #{data[i].title} #{data[i].answer}
+	- }      
+		ul.mdc-list
+		- for(var j = 0; j < data[i].names.length; j++){
+			li.mdc-list-item
+				- if(i > 0){
+				span.mdc-list-item__text.adjust #{data[i].names[j]} Picked this!
+				- } else {
+				span.mdc-list-item__text.adjust #{data[i].names[j]} Picked this! +1000 points
+				-}
+		- }	
+	- }
+	
+	- } else {
+	
+	h1 See who answered on the main screen!
+	
+	-}
+	
+	div#countdown-bar-bg
+		div#countdown-bar
+		p#countdown-text Waiting for players

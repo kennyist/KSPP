@@ -143,6 +143,150 @@
           "text" : "Rotterdam"
         } 
       ]
+    },
+    {
+      "text": "What French sculptor created the Statue of Liberty?",
+      "correct": 2,
+      "answers": [
+      	{
+      	  "text": "Camille Claudel"
+      	},
+      	{
+      	  "text": "Edgar Degas"
+      	},
+      	{
+      	  "text": "Frédéric Auguste Bartholdi"
+      	},
+      	{
+      	  "text": "César Baldaccini"
+      	}
+      ]
+    },
+    {
+      "text": "What is the most spoken language in the world?",
+      "correct": 1,
+      "answers": [
+      	{
+      	  "text": "English"
+      	},
+      	{
+      	  "text": "Chinese"
+      	},
+      	{
+      	  "text": "Spanish"
+      	},
+      	{
+      	  "text": "French"
+      	}
+      ]
+    },
+    {
+      "text": "In what year was the Nintendo 64 officially released?",
+      "correct": 0,
+      "answers": [
+      	{
+      	  "text": "1996"
+      	},
+      	{
+      	  "text": "1989"
+      	},
+      	{
+      	  "text": "1964"
+      	},
+      	{
+      	  "text": "1990"
+      	}
+      ]
+    },
+    {
+      "text": "Hg is the chemical symbol of which element?",
+      "correct": 3,
+      "answers": [
+      	{
+      	  "text": "Phosphorus"
+      	},
+      	{
+      	  "text": "Helium"
+      	},
+      	{
+      	  "text": "Gold"
+      	},
+      	{
+      	  "text": "Mercury"
+      	}
+      ]
+    },
+    {
+      "text": "In Greek mythology, how many graces are there?",
+      "correct": 2,
+      "answers": [
+      	{
+      	  "text": "One"
+      	},
+      	{
+      	  "text": "Two"
+      	},
+      	{
+      	  "text": "Three"
+      	},
+      	{
+      	  "text": "Four"
+      	}
+      ]
+    },
+    {
+      "text": "How many letters are there in the German alphabet?",
+      "correct": 1,
+      "answers": [
+      	{
+      	  "text": "26"
+      	},
+      	{
+      	  "text": "30"
+      	},
+      	{
+      	  "text": "32"
+      	},
+      	{
+      	  "text": "35"
+      	}
+      ]
+    },
+    {
+      "text": "Little Cuba is the nickname of which US city?",
+      "correct": 3,
+      "answers": [
+      	{
+      	  "text": "Minneapolis"
+      	},
+      	{
+      	  "text": "Portland"
+      	},
+      	{
+      	  "text": "New york"
+      	},
+      	{
+      	  "text": "Miami"
+      	}
+      ]
+    },
+    {
+      "text": "What is the tallest waterfall in the world?",
+      "correct": 0,
+      "answers": [
+      	{
+      	  "text": "Angel Falls"
+      	},
+      	{
+      	  "text": "Yosemite Falls"
+      	},
+      	{
+      	  "text": "Browne Falls"
+      	},
+      	{
+      	  "text": "Kjelfossen"
+      	}
+      ]
     }
   ]
 }

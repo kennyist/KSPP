@@ -1,9 +1,19 @@
-// GameTrivia.js
+/*!
+ * KSPP
+ * Trivia Game
+ * 
+ * 	This is a simple trivia game running on the KSPP API
+ * 
+ * Copyright(c) 2017 Tristan James Cunningham
+ * MIT Licensed
+ */
+
+
 'use strict';
 
 module.exports = class GameTrivia {
 
-	constructor(parent, players, directory) {
+	constructor(parent, players, directory, config) {
 		this.parent = parent;
 		this.players = players;
 		this.round = 1;
@@ -16,12 +26,13 @@ module.exports = class GameTrivia {
 		this.timerM = 0;
 		this.nextPage = 0; // 0 = question
 		this.scoreMulti = 1;
-		this.config = {tickRate: 33.33};
+		this.config = config;
 		this.dir = directory;
+		this.answerSound = './sound/trivia-answer.wav';
 	}
 
 	start() {
-		this.parent.replacePage(this.dir + "/views/triviaStart", {
+		this.parent.replacePage("triviaStart", {
 			players : this.players
 		});
 		this.loadNext();
@@ -143,7 +154,7 @@ module.exports = class GameTrivia {
 			data : this.data.questions[this.currentQuestion],
 			players : this.players.sort(this.sortFunction, "gameScore")
 		});
-		this.timerM = 10000;
+		this.timerM = 5000;
 	}
 	
 	sortFunction(a, b, index) {
@@ -159,11 +170,12 @@ module.exports = class GameTrivia {
 	loadQuestion() {
 		this.currentQuestion = this.getRandomInt(0, this.data.questions.length - 1);
 		this.parent.replacePage("triviaQuestion", {
-			data : this.data.questions[this.currentQuestion]
+			data : this.data.questions[this.currentQuestion],
+			players: this.players
 		});
 
 		this.nextPage = 1;
-		this.timerM = 15000;
+		this.timerM = 10000;
 	}
 
 	receiveMessage(data) {
@@ -182,12 +194,24 @@ module.exports = class GameTrivia {
 		player.answered = true;
 		player.answer = answer;
 		this.answered++;
+		
+		this.parent.playSoundEffect(true, this.answerSound, "answer");
+		this.parent.sendMessageToClient("trivia-panswer", this.getPlayerIndex(UID));
+
 
 		this.parent.replacePage("triviaWait", {
 			data : this.data.questions[this.currentQuestion]
 		}, player.socket);
 
 		this.CheckAllAnswered();
+	}
+	
+	getPlayerIndex(UID){
+		for (var i = 0; i < this.players.length; i++) {
+			if (UID == this.players[i].id) {
+				return i;
+			}
+		}
 	}
 
 	resetRound() {

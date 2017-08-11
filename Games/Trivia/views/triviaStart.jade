@@ -1,9 +1,12 @@
-block content
-	div#trivia
-		h1 Trivia Game
+div#trivia
+	h1 Trivia Game
+	
+	div
+		p Welcome #{players[0].name}
+	
+	div 
+		p To a simple game of trivia, just press the right answers on your devices!
 		
-		div
-			p Welcome #{players[0].name}
-		
-		div 
-			p To a simple game of trivia, just press the right answers on your devices!
+	div#countdown-bar-bg
+		div#countdown-bar
+		p#countdown-text Waiting for players

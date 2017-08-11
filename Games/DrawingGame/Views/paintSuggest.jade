@@ -1,18 +1,24 @@
-- if(host){
-# Waiting for everyone to answer
-- } else {
-
-- if(owner){
-
-h1.center You drew this! wait for everyone else
-
-- } else {
-
-ul#drawAnswer
-	- for(var i = 0; i < data.length; i++) {
-	li
-		button(val="#{i}").pure-button #{data[i].word.answer}
-	- }
-
--}
--}
+div#drawing
+	- if(host){
+	h1.center What answer do you think is right?
+	
+	img(width="400px", height="400px", src="#{src}").center
+	- } else {
+	
+	- if(owner){
+	
+	h1.center You drew this! wait for everyone else
+	
+	- } else {
+	
+	div#drawAnswer
+		- for(var i = 0; i < data.answers.length; i++) {
+			button(val="#{i}").mdc-button.mdc-button--raised.mdc-button--accent.fullWidth.buttons #{data.answers[i]}
+		- }
+	
+	-}
+	-}
+	
+	div#countdown-bar-bg
+		div#countdown-bar
+		p#countdown-text Waiting for players
