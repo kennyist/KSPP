@@ -7,7 +7,7 @@ KS: Party pack is a game service that provides lobby functions, player tracking 
 
 Please see the wiki for developer and user guides!
 
-##Extras:
+## Extras:
 
 * Feedback survey: https://docs.google.com/forms/d/1KfdlHXFKSomGYgkaDnCJ73QUCImndmlcobTBC0YX3uY
 * Twitter: https://twitter.com/Kennyist_Studio
