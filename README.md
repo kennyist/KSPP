@@ -1,3 +1,5 @@
+![KS: Party Pack Logo](http://tristanjc.com/press/KS_Party_pack/images/logo.png)
+
 # KS: Party Pack
 ### Alpha release
 
