@@ -8,7 +8,7 @@
  * MIT Licensed
  */
 
-var socket = io("http://kspp.us-east-2.elasticbeanstalk.com:8000");
+var socket = io();
 var UID = "";
 
 // SETUP 
