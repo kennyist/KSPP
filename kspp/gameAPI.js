@@ -63,7 +63,7 @@
 		}
 		
 		if(hostOnly){
-			this.sendMessageToClient("music-play", data, this.getSocket());
+			this.sendMessageToClient("music-play", data, this.getHostSocket());
 		}
 		else 
 		{
@@ -90,7 +90,7 @@
 		};
 		
 		if(hostonly){
-			this.sendMessageToClient("soundEfct-play", data, this.getSocket());
+			this.sendMessageToClient("soundEfct-play", data, this.getHostSocket());
 		} else {
 			this.sendMessageToClient("soundEfct-play", data);	
 		}
